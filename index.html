@@ -1,0 +1,2092 @@
+<title>Axis Capital KT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#F5F7FA; --surface:#FFFFFF; --surface-2:#EDF0F5; --surface-3:#E4E8EE;
+  --ink:#0B1220; --ink-soft:#4B5565; --ink-faint:#7C8699;
+  --line:#DCE1E8; --line-strong:#C3CAD5;
+  --navy:#0E1626; --navy-soft:#16213A;
+  --green:#166A4C; --green-ink:#0E4A35; --green-soft:#E3F1EA; --green-line:#BBDDC9;
+  --blue:#2E5C96; --blue-soft:#E8EEF8; --blue-line:#C4D4EB;
+  --amber:#8A5A19; --amber-soft:#F5EADA; --amber-line:#E2C999;
+  --red:#92372F; --red-soft:#F6E7E5; --red-line:#E0BDB8;
+  --accent:var(--green);
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --shadow-1:0 1px 2px rgba(14,22,38,.06),0 1px 1px rgba(14,22,38,.04);
+  --shadow-2:0 8px 24px rgba(14,22,38,.10),0 2px 6px rgba(14,22,38,.06);
+  --radius:10px;
+  --sidebar-w:296px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0A0E17; --surface:#111928; --surface-2:#161F32; --surface-3:#1D2A42;
+    --ink:#E7EAF1; --ink-soft:#A8B0C2; --ink-faint:#707A8E;
+    --line:#263146; --line-strong:#334059;
+    --navy:#0A0E17; --navy-soft:#111928;
+    --green:#49B583; --green-ink:#7ED3AA; --green-soft:#132A20; --green-line:#1E4535;
+    --blue:#7CA6E0; --blue-soft:#13213A; --blue-line:#233A5C;
+    --amber:#D9A24B; --amber-soft:#2E2412; --amber-line:#4A3A1C;
+    --red:#D98880; --red-soft:#2E1816; --red-line:#4A2622;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4); --shadow-2:0 12px 28px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0A0E17; --surface:#111928; --surface-2:#161F32; --surface-3:#1D2A42;
+  --ink:#E7EAF1; --ink-soft:#A8B0C2; --ink-faint:#707A8E;
+  --line:#263146; --line-strong:#334059;
+  --navy:#0A0E17; --navy-soft:#111928;
+  --green:#49B583; --green-ink:#7ED3AA; --green-soft:#132A20; --green-line:#1E4535;
+  --blue:#7CA6E0; --blue-soft:#13213A; --blue-line:#233A5C;
+  --amber:#D9A24B; --amber-soft:#2E2412; --amber-line:#4A3A1C;
+  --red:#D98880; --red-soft:#2E1816; --red-line:#4A2622;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4); --shadow-2:0 12px 28px rgba(0,0,0,.45);
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation-duration:.001ms !important;transition-duration:.001ms !important;} }
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);margin:0;text-wrap:balance;font-weight:600;}
+p{margin:0 0 .85em;max-width:68ch;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+strong,b{color:var(--ink);font-weight:700;}
+ul,ol{padding-left:1.25em;margin:0 0 .85em;}
+li{margin-bottom:.35em;}
+code{font-family:var(--font-mono);font-size:.9em;background:var(--surface-2);padding:.1em .4em;border-radius:4px;}
+table{font-variant-numeric:tabular-nums;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+.eyebrow{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.09em;font-size:11px;color:var(--ink-faint);font-weight:600;}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+.num{font-family:var(--font-mono);font-weight:600;color:var(--ink);}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+/* ============ APP SHELL ============ */
+.topbar{position:sticky;top:0;z-index:60;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.08);}
+.topbar-inner{display:flex;align-items:center;gap:14px;padding:10px 18px;max-width:1600px;margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;font-family:var(--font-display);font-weight:700;font-size:17px;white-space:nowrap;}
+.brand .mark{width:30px;height:30px;border-radius:7px;background:linear-gradient(160deg,var(--green) 0%,#0E4A35 100%);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:700;color:#fff;font-size:12px;flex-shrink:0;}
+.brand .sub{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:#9FB3D1;text-transform:uppercase;font-weight:500;display:block;margin-top:1px;}
+.brand-text{display:flex;flex-direction:column;line-height:1.15;}
+.menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:8px;width:36px;height:36px;align-items:center;justify-content:center;flex-shrink:0;}
+.top-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:nowrap;}
+.top-link{color:#C7D2E6;font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;padding:7px 10px;border-radius:7px;white-space:nowrap;}
+.top-link:hover{background:rgba(255,255,255,.08);text-decoration:none;color:#fff;}
+.search-wrap{position:relative;}
+.search-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#C7D2E6;border-radius:8px;padding:7px 11px;font-size:13px;}
+.search-btn:hover{background:rgba(255,255,255,.12);}
+.search-btn kbd{font-family:var(--font-mono);font-size:10px;background:rgba(255,255,255,.12);padding:1px 5px;border-radius:4px;}
+.theme-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.theme-btn:hover{background:rgba(255,255,255,.14);}
+.quickprep-btn{background:var(--green);color:#fff;font-family:var(--font-mono);font-weight:600;font-size:12px;letter-spacing:.03em;padding:8px 13px;border-radius:8px;border:1px solid var(--green);white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.quickprep-btn:hover{background:#1C7E5A;text-decoration:none;}
+.quickprep-btn .dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+/* role filter bar */
+.rolebar{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:53px;z-index:55;}
+.rolebar-inner{max-width:1600px;margin:0 auto;padding:8px 18px;display:flex;align-items:center;gap:12px;}
+.rolebar-label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);flex-shrink:0;}
+.role-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.role-pill{font-family:var(--font-mono);font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-soft);}
+.role-pill[aria-pressed="true"]{background:var(--green-soft);border-color:var(--green-line);color:var(--green-ink);}
+.role-pill:hover{border-color:var(--green);}
+.rolebar-hint{margin-left:auto;font-size:12px;color:var(--ink-faint);display:none;}
+@media(min-width:860px){.rolebar-hint{display:block;}}
+
+.shell{display:flex;max-width:1600px;margin:0 auto;align-items:flex-start;}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;position:sticky;top:106px;max-height:calc(100vh - 106px);overflow-y:auto;padding:18px 10px 40px 18px;}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px;}
+.sidebar-group{margin-bottom:4px;}
+.sidebar-group-head{display:flex;align-items:center;justify-content:space-between;width:100%;background:transparent;border:none;padding:10px 8px 6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;}
+.sidebar-group-head .chev{transition:transform .15s;color:var(--ink-faint);}
+.sidebar-group.collapsed .chev{transform:rotate(-90deg);}
+.sidebar-group.collapsed .sidebar-links{display:none;}
+.sidebar-links{display:flex;flex-direction:column;gap:1px;}
+.sidebar-links a{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;font-size:13.5px;color:var(--ink-soft);border-left:2px solid transparent;}
+.sidebar-links a:hover{background:var(--surface-2);text-decoration:none;color:var(--ink);}
+.sidebar-links a.active{background:var(--green-soft);color:var(--green-ink);border-left-color:var(--green);font-weight:600;}
+.sidebar-progress{padding:12px 10px 4px;}
+.sidebar-overlay{display:none;}
+
+.content{flex:1;min-width:0;padding:28px 28px 90px;max-width:1150px;}
+main{display:block;}
+
+/* progress bars */
+.progress{display:flex;flex-direction:column;gap:5px;}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;}
+.progress-label{color:var(--ink-faint);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em;font-size:10.5px;}
+.progress-val{font-family:var(--font-mono);font-weight:600;color:var(--ink);}
+.progress-track{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease;}
+.progress-fill.blue{background:var(--blue);}
+
+/* ============ SECTIONS & TYPE ============ */
+.kt-section{padding:46px 0 10px;border-top:1px solid var(--line);scroll-margin-top:110px;}
+.kt-section:first-of-type{border-top:none;}
+.part-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--green-ink);background:var(--green-soft);border:1px solid var(--green-line);padding:3px 9px;border-radius:999px;text-transform:uppercase;font-weight:600;}
+.part-tag.p2{color:var(--blue);background:var(--blue-soft);border-color:var(--blue-line);}
+.section-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:6px;}
+h2.section-title{font-size:clamp(1.5rem,2.3vw,1.95rem);}
+.section-sub{color:var(--ink-soft);font-size:15px;max-width:62ch;margin-top:4px;}
+h3.sub-title{font-size:1.1rem;margin:30px 0 10px;padding-top:2px;}
+h3.sub-title:first-of-type{margin-top:18px;}
+h4.mini-title{font-family:var(--font-body);font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin:20px 0 8px;}
+
+/* ============ CARDS ============ */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:16px 0 22px;}
+.card-grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 17px;box-shadow:var(--shadow-1);transition:border-color .15s,box-shadow .15s;}
+.card:hover{box-shadow:var(--shadow-2);}
+.card h4{font-family:var(--font-display);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.card p{font-size:13.6px;color:var(--ink-soft);margin-bottom:.5em;}
+.card p:last-child{margin-bottom:0;}
+.card .card-eyebrow{display:block;font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);margin-bottom:6px;}
+.card.accent-ib{border-left:3px solid var(--blue);}
+.card.accent-er{border-left:3px solid var(--green);}
+.card.accent-trading{border-left:3px solid var(--amber);}
+.icon-card{text-align:left;}
+.icon-card .emoji{font-size:22px;display:block;margin-bottom:8px;}
+.icon-card a{color:inherit;}
+
+/* hero dashboard cards */
+.hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 26px;}
+@media(max-width:760px){.hero-cards{grid-template-columns:1fr;}}
+.hero-card{position:relative;background:var(--navy);color:#fff;border-radius:14px;padding:26px 24px;overflow:hidden;border:1px solid var(--line-strong);text-decoration:none;display:block;min-height:168px;}
+.hero-card:hover{text-decoration:none;}
+.hero-card .hc-num{font-family:var(--font-mono);font-size:12px;color:#8FB7A3;letter-spacing:.08em;}
+.hero-card.p2 .hc-num{color:#9FB3D1;}
+.hero-card h3{color:#fff;font-size:1.3rem;margin:8px 0 8px;}
+.hero-card p{color:#C7D2E6;font-size:13.8px;margin:0;max-width:40ch;}
+.hero-card .hc-arrow{position:absolute;right:22px;bottom:20px;color:#fff;opacity:.6;}
+.hero-card::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(22,106,76,.22),transparent 60%);pointer-events:none;}
+.hero-card.p2::after{background:linear-gradient(135deg,rgba(46,92,150,.25),transparent 60%);}
+
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:14px 0 10px;}
+.quick-tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px;text-align:left;display:block;text-decoration:none;}
+.quick-tile:hover{border-color:var(--green);text-decoration:none;box-shadow:var(--shadow-1);}
+.quick-tile .emoji{font-size:20px;}
+.quick-tile .ql-title{display:block;color:var(--ink);font-weight:600;font-size:13.8px;margin-top:8px;}
+
+/* ============ TABLES ============ */
+.table-scroll{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--line);border-radius:var(--radius);}
+table.kt-table{width:100%;border-collapse:collapse;font-size:13.6px;min-width:480px;}
+table.kt-table th,table.kt-table td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+table.kt-table thead th{background:var(--surface-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);font-weight:600;white-space:nowrap;}
+table.kt-table tbody tr:last-child td{border-bottom:none;}
+table.kt-table tbody tr:hover{background:var(--surface-2);}
+table.kt-table td.numcell{font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* ============ CALLOUTS ============ */
+.callout{border:1px solid var(--line);border-left:3px solid var(--ink-faint);background:var(--surface);border-radius:8px;padding:13px 16px;margin:16px 0;font-size:13.8px;}
+.callout .co-label{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:6px;}
+.callout p:last-child{margin-bottom:0;}
+.callout.tip{border-left-color:var(--blue);} .callout.tip .co-label{color:var(--blue);}
+.callout.must{border-left-color:var(--green);background:var(--green-soft);} .callout.must .co-label{color:var(--green-ink);}
+.callout.common{border-left-color:var(--amber);} .callout.common .co-label{color:var(--amber);}
+.callout.senior{border-left-color:var(--navy);} .callout.senior .co-label{color:var(--ink);}
+.callout.watch{border-left-color:var(--red);background:var(--red-soft);} .callout.watch .co-label{color:var(--red);}
+.callout.trend{border-left-color:var(--blue);background:var(--blue-soft);} .callout.trend .co-label{color:var(--blue);}
+
+/* ============ TIER / ROLE BADGES ============ */
+.tier{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:2px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.tier.must{background:var(--green-soft);color:var(--green-ink);border:1px solid var(--green-line);}
+.tier.should{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-line);}
+.tier.bonus{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line);}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
+.rtag{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:5px;border:1px solid var(--line-strong);color:var(--ink-faint);}
+[data-role~="ib"] .rtag.ib,[data-role~="er"] .rtag.er,[data-role~="trading"] .rtag.trading{opacity:1;}
+
+/* role filter dimming: applies to any element carrying data-role when a filter is active and it doesn't match */
+body[data-role-filter="ib"] [data-role]:not([data-role~="ib"]){opacity:.4;filter:saturate(.7);}
+body[data-role-filter="er"] [data-role]:not([data-role~="er"]){opacity:.4;filter:saturate(.7);}
+body[data-role-filter="trading"] [data-role]:not([data-role~="trading"]){opacity:.4;filter:saturate(.7);}
+body[data-role-filter="ib"] [data-role~="ib"],
+body[data-role-filter="er"] [data-role~="er"],
+body[data-role-filter="trading"] [data-role~="trading"]{outline:2px solid var(--green);outline-offset:2px;border-radius:10px;}
+
+/* ============ ACCORDIONS (details/summary) ============ */
+details.qa{border:1px solid var(--line);border-radius:9px;background:var(--surface);margin-bottom:8px;overflow:hidden;}
+details.qa summary{list-style:none;cursor:pointer;padding:12px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:10px;}
+details.qa summary::-webkit-details-marker{display:none;}
+details.qa summary .qmark{font-family:var(--font-mono);color:var(--green);flex-shrink:0;transition:transform .15s;}
+details.qa[open] summary .qmark{transform:rotate(45deg);}
+details.qa summary::after{content:none;}
+.qa-body{padding:2px 16px 16px 42px;font-size:13.8px;color:var(--ink-soft);border-top:1px solid var(--line);margin-top:0;}
+.qa-body .qa-row{margin-top:10px;}
+.qa-body .qa-k{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);display:block;margin-bottom:3px;}
+.qbank-group{margin-bottom:26px;}
+.qbank-group-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.qa.flash{animation:flashhi 1.6s ease;}
+@keyframes flashhi{0%{background:var(--amber-soft);}100%{background:var(--surface);}}
+
+details.simple{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:var(--surface);}
+details.simple summary{padding:11px 15px;font-weight:600;cursor:pointer;list-style:none;}
+details.simple summary::-webkit-details-marker{display:none;}
+details.simple .qa-body{padding:0 15px 14px;border-top:1px solid var(--line);margin-top:8px;}
+
+/* ============ TIMELINE ============ */
+.timeline{position:relative;margin:20px 0;padding-left:28px;border-left:2px solid var(--line);}
+.t-item{position:relative;margin-bottom:22px;padding-bottom:4px;}
+.t-item::before{content:"";position:absolute;left:-34px;top:3px;width:11px;height:11px;border-radius:50%;background:var(--green);border:2px solid var(--surface);box-shadow:0 0 0 2px var(--green-line);}
+.t-year{font-family:var(--font-mono);font-weight:700;color:var(--green-ink);font-size:13px;letter-spacing:.03em;}
+.t-item h4{font-size:15px;margin:3px 0 4px;}
+.t-item p{font-size:13.6px;color:var(--ink-soft);margin-bottom:0;}
+
+/* ============ FLOW DIAGRAMS ============ */
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:0;margin:18px 0;max-width:560px;}
+.flow-step{background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;padding:11px 15px;font-size:13.8px;font-weight:600;text-align:center;}
+.flow-step .fs-note{display:block;font-weight:400;font-size:12px;color:var(--ink-faint);margin-top:2px;}
+.flow-arrow{align-self:center;color:var(--ink-faint);padding:3px 0;font-family:var(--font-mono);font-size:13px;}
+.flow-row{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap;}
+.flow-row .flow-step{flex:1;min-width:120px;}
+.flow-row-arrow{align-self:center;color:var(--ink-faint);}
+.tree-diagram{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:18px;font-family:var(--font-mono);font-size:12.3px;line-height:1.75;overflow-x:auto;color:var(--ink-soft);white-space:pre;margin:16px 0;}
+
+/* ============ CHECKLISTS ============ */
+.checklist-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0;}
+.checklist-box h4{margin-bottom:10px;font-size:14px;}
+.checklist-item{display:flex;align-items:flex-start;gap:9px;padding:7px 4px;border-radius:6px;font-size:13.8px;cursor:pointer;}
+.checklist-item:hover{background:var(--surface-2);}
+.checklist-item input{margin-top:3px;width:15px;height:15px;accent-color:var(--green);flex-shrink:0;}
+.checklist-item span.done{text-decoration:line-through;color:var(--ink-faint);}
+.checklist-summary{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:18px 0;}
+.checklist-summary .big-pct{font-family:var(--font-mono);font-size:1.8rem;font-weight:700;color:var(--green-ink);}
+.checklist-cat{margin-bottom:22px;}
+.checklist-cat-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.checklist-cat-head h4{font-size:14px;}
+.checklist-cat-head .cat-pct{font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);}
+
+/* ============ SOURCE / REPORTED ============ */
+.source{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);margin-left:4px;}
+.source a{color:var(--ink-faint);text-decoration:underline;text-decoration-color:var(--line-strong);}
+.source a:hover{color:var(--blue);}
+.reported{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line);padding:3px 8px;border-radius:999px;margin-bottom:8px;font-weight:700;}
+
+/* ============ NEWS CARDS ============ */
+.news-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:16px;}
+.news-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px;}
+.news-date{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);}
+.news-card h3{font-size:1.05rem;margin:0;}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+.news-field{background:var(--surface-2);border-radius:7px;padding:10px 12px;}
+.news-field .nf-k{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);display:block;margin-bottom:4px;}
+.news-field p{font-size:13.3px;margin:0;color:var(--ink-soft);}
+.news-q{background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:7px;padding:10px 12px;margin-top:10px;font-size:13.3px;}
+.news-q .nf-k{color:var(--blue);}
+
+/* ============ SEARCH OVERLAY ============ */
+.search-overlay{position:fixed;inset:0;background:rgba(8,12,20,.55);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:10vh 16px 16px;backdrop-filter:blur(2px);}
+.search-overlay.open{display:flex;}
+.search-panel{background:var(--surface);border-radius:14px;width:min(640px,96vw);max-height:70vh;display:flex;flex-direction:column;box-shadow:var(--shadow-2);border:1px solid var(--line);}
+.search-input-row{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-faint);}
+.search-input-row input{flex:1;border:none;background:transparent;font-size:15px;color:var(--ink);font-family:var(--font-body);}
+.search-input-row input:focus{outline:none;}
+.search-close{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:3px 7px;}
+.search-results{overflow-y:auto;padding:6px;}
+.search-result{display:block;padding:10px 12px;border-radius:8px;cursor:pointer;}
+.search-result:hover,.search-result.active{background:var(--surface-2);}
+.search-result .sr-crumb{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;}
+.search-result .sr-text{font-size:13.6px;color:var(--ink);margin-top:3px;}
+.search-result mark{background:var(--green-soft);color:var(--green-ink);border-radius:3px;padding:0 2px;}
+.search-empty{padding:30px 12px;text-align:center;color:var(--ink-faint);font-size:13.5px;}
+
+/* ============ BACK TO TOP ============ */
+.back-to-top{position:fixed;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;border:1px solid var(--line-strong);box-shadow:var(--shadow-2);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;}
+.back-to-top.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.back-to-top:hover{background:var(--green);}
+
+/* ============ MISC ============ */
+.divider-list{display:flex;flex-direction:column;}
+.divider-list > div{padding:10px 0;border-bottom:1px solid var(--line);}
+.divider-list > div:last-child{border-bottom:none;}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13.8px;margin:12px 0;}
+.kv dt{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);padding-top:1px;}
+.kv dd{margin:0 0 6px;}
+.lede{font-size:16.5px;color:var(--ink-soft);max-width:66ch;margin-top:10px;}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0;}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 16px;min-width:120px;}
+.stat .st-num{font-family:var(--font-mono);font-weight:700;font-size:1.4rem;color:var(--green-ink);display:block;line-height:1.1;}
+.stat .st-label{font-size:11.5px;color:var(--ink-faint);margin-top:3px;display:block;}
+
+.qp-row{display:flex;align-items:center;gap:14px;padding:12px 10px;border-radius:9px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);}
+.qp-row:last-child{border-bottom:none;}
+.qp-row:hover{background:var(--surface-2);text-decoration:none;}
+.qp-n{background:var(--navy);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.qp-d{font-size:12.3px;color:var(--ink-faint);font-weight:400;}
+.qp-go{margin-left:auto;font-family:var(--font-mono);font-size:11.5px;color:var(--green-ink);flex-shrink:0;white-space:nowrap;}
+
+/* ============ RESPONSIVE ============ */
+.hide-sm{display:inline-flex;}
+@media(max-width:860px){
+  .hide-sm{display:none !important;}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;background:var(--paper);z-index:120;transform:translateX(-100%);transition:transform .22s ease;box-shadow:var(--shadow-2);max-height:100vh;padding-top:70px;width:300px;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;position:fixed;inset:0;background:rgba(8,12,20,.5);z-index:110;}
+  .menu-btn{display:flex;}
+  .content{padding:20px 16px 70px;}
+  .rolebar-inner{flex-wrap:wrap;}
+  .hero-cards{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .quickprep-btn span{display:none;}
+  .quickprep-btn{padding:8px 10px;}
+}
+</style>
+<body>
+<!-- =============== TOPBAR =============== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="brand">
+      <span class="mark">AC</span>
+      <span class="brand-text">AXIS CAPITAL KT<span class="sub">IIM Lucknow &middot; Placement Prep</span></span>
+    </div>
+    <div class="top-actions">
+      <a href="#glance" class="top-link hide-sm">Part 1</a>
+      <a href="#interview-process" class="top-link hide-sm">Part 2</a>
+      <a href="#quick-prep" class="quickprep-btn"><span class="dot"></span>INTERVIEW TOMORROW?</a>
+      <div class="search-wrap">
+        <button class="search-btn" id="searchOpenBtn" aria-haspopup="dialog">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.6" stroke="currentColor" stroke-width="1.4"/><path d="M9.6 9.6 13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span class="hide-sm">Search KT</span><kbd class="hide-sm">/</kbd>
+        </button>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M13 3l-1.4 1.4M4.4 11.6 3 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="8" r="3.4" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- =============== ROLE FILTER BAR =============== -->
+<div class="rolebar">
+  <div class="rolebar-inner">
+    <span class="rolebar-label">Role lens</span>
+    <div class="role-pills" id="rolePills" role="group" aria-label="Filter by role">
+      <button class="role-pill" data-role="all" aria-pressed="true">ALL</button>
+      <button class="role-pill" data-role="ib" aria-pressed="false">IB</button>
+      <button class="role-pill" data-role="er" aria-pressed="false">ER</button>
+      <button class="role-pill" data-role="trading" aria-pressed="false">TRADING</button>
+    </div>
+    <span class="rolebar-hint" id="roleHint">Showing everything. Pick a role to highlight what matters most to it &mdash; nothing is hidden.</span>
+  </div>
+</div>
+
+<!-- =============== SEARCH OVERLAY =============== -->
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search the KT">
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.6" stroke="currentColor" stroke-width="1.4"/><path d="M9.6 9.6 13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="text" placeholder="Search the entire KT &mdash; try &ldquo;QIP&rdquo;, &ldquo;DCF&rdquo;, &ldquo;NSE&rdquo;, &ldquo;WACC&rdquo;&hellip;" autocomplete="off">
+      <button id="searchCloseBtn" class="search-close" aria-label="Close search">Esc</button>
+    </div>
+    <div id="searchResults" class="search-results"></div>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="shell">
+<!-- =============== SIDEBAR =============== -->
+<nav class="sidebar" id="sidebar" aria-label="Section navigation">
+  <div class="sidebar-progress">
+    <div class="progress">
+      <div class="progress-top"><span class="progress-label">Company &amp; Role</span><span class="progress-val" id="progCompanyVal">0/12</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progCompanyBar" style="width:0%"></div></div>
+    </div>
+    <div class="progress" style="margin-top:10px;">
+      <div class="progress-top"><span class="progress-label">Interview Prep</span><span class="progress-val" id="progInterviewVal">0/17</span></div>
+      <div class="progress-track"><div class="progress-fill blue" id="progInterviewBar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="sidebar-group">
+    <button class="sidebar-group-head" data-group="overview">Overview <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></button>
+    <div class="sidebar-links">
+      <a href="#home" data-nav>Home</a>
+      <a href="#how-to-use" data-nav>How to use this KT</a>
+      <a href="#quick-prep" data-nav>Interview Tomorrow?</a>
+    </div>
+  </div>
+
+  <div class="sidebar-group">
+    <button class="sidebar-group-head" data-group="part1">Part 1 &mdash; Company &amp; Role <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></button>
+    <div class="sidebar-links">
+      <a href="#glance" data-nav>At a Glance</a>
+      <a href="#history" data-nav>History</a>
+      <a href="#structure" data-nav>Business Structure</a>
+      <a href="#ib" data-nav>Investment Banking</a>
+      <a href="#ie" data-nav>Institutional Equities</a>
+      <a href="#roles-compare" data-nav>IB vs ER vs Trading</a>
+      <a href="#business-model" data-nav>Business Model</a>
+      <a href="#sectors" data-nav>Sector Coverage</a>
+      <a href="#transactions" data-nav>Recent Transactions</a>
+      <a href="#news" data-nav>Recent News</a>
+      <a href="#leadership" data-nav>Leadership</a>
+      <a href="#why-axis" data-nav>Why Axis</a>
+    </div>
+  </div>
+
+  <div class="sidebar-group">
+    <button class="sidebar-group-head" data-group="part2">Part 2 &mdash; Interview <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></button>
+    <div class="sidebar-links">
+      <a href="#interview-process" data-nav>Interview Process</a>
+      <a href="#round-buddy" data-nav>Round 1: Buddy</a>
+      <a href="#round-vp" data-nav>Round 2: VP/AVP</a>
+      <a href="#round-md" data-nav>Round 3: Director/MD</a>
+      <a href="#interview-trends" data-nav>Interview Trends</a>
+      <a href="#fit" data-nav>Fit &amp; Motivation</a>
+      <a href="#cv" data-nav>CV Deep Dive</a>
+      <a href="#technicals" data-nav>Finance Technicals</a>
+      <a href="#stock-pitch" data-nav>Stock Pitch</a>
+      <a href="#current-affairs" data-nav>Current Affairs</a>
+      <a href="#ib-prep" data-nav>IB Preparation</a>
+      <a href="#er-prep" data-nav>ER Preparation</a>
+      <a href="#trading-prep" data-nav>Trading Preparation</a>
+      <a href="#behavioural" data-nav>Behavioural</a>
+      <a href="#question-bank" data-nav>Question Bank</a>
+      <a href="#plan-48h" data-nav>48-Hour Plan</a>
+      <a href="#checklist" data-nav>Final Checklist</a>
+    </div>
+  </div>
+</nav>
+
+<main class="content" id="mainContent">
+<section class="kt-section" id="home" data-label="Home">
+  <span class="eyebrow">Axis Capital &middot; Investment Banking &middot; Equity Research &middot; Trading</span>
+  <h1 style="font-size:clamp(2.1rem,5vw,3rem);margin-top:8px;">AXIS CAPITAL</h1>
+  <p class="lede">Interview KT &middot; IIM Lucknow. Everything you need to understand Axis Capital, the three roles, past interview trends and how to prepare.</p>
+
+  <div class="hero-cards">
+    <a href="#glance" class="hero-card">
+      <span class="hc-num mono">01 &mdash; COMPANY &amp; ROLE</span>
+      <h3>Understand the business</h3>
+      <p>Axis Capital&rsquo;s businesses, roles, recent deals and market positioning &mdash; ENAM&rsquo;s legacy through to FY26.</p>
+      <span class="hc-arrow">&rarr;</span>
+    </a>
+    <a href="#interview-process" class="hero-card p2">
+      <span class="hc-num mono">02 &mdash; INTERVIEW &amp; PREPARATION</span>
+      <h3>Prepare for the room</h3>
+      <p>Past interview trends, categorised questions, technical prep and role-specific guidance.</p>
+      <span class="hc-arrow">&rarr;</span>
+    </a>
+  </div>
+
+  <h4 class="mini-title">Quick access</h4>
+  <div class="quick-grid">
+    <a class="quick-tile idx" href="#glance" data-idx data-search-label="Understand Axis Capital"><span class="emoji">&#127974;</span><span class="ql-title">Understand Axis Capital</span></a>
+    <a class="quick-tile idx" href="#ib" data-idx data-search-label="Investment Banking"><span class="emoji">&#128188;</span><span class="ql-title">Investment Banking</span></a>
+    <a class="quick-tile idx" href="#ie" data-idx data-search-label="Equity Research"><span class="emoji">&#128202;</span><span class="ql-title">Equity Research</span></a>
+    <a class="quick-tile idx" href="#trading-prep" data-idx data-search-label="Trading"><span class="emoji">&#128200;</span><span class="ql-title">Trading</span></a>
+    <a class="quick-tile idx" href="#news" data-idx data-search-label="Recent News"><span class="emoji">&#128240;</span><span class="ql-title">Recent News</span></a>
+    <a class="quick-tile idx" href="#question-bank" data-idx data-search-label="Interview Questions"><span class="emoji">&#127919;</span><span class="ql-title">Interview Questions</span></a>
+    <a class="quick-tile idx" href="#technicals" data-idx data-search-label="Finance Technicals"><span class="emoji">&#129518;</span><span class="ql-title">Finance Technicals</span></a>
+    <a class="quick-tile idx" href="#plan-48h" data-idx data-search-label="48-Hour Prep"><span class="emoji">&#128218;</span><span class="ql-title">48-Hour Prep</span></a>
+  </div>
+
+  <div class="callout tip" style="margin-top:28px;">
+    <div class="co-label">Interview tip</div>
+    <p>Use the <strong>role lens</strong> at the top of the page (ALL&nbsp;/&nbsp;IB&nbsp;/&nbsp;ER&nbsp;/&nbsp;TRADING) to visually prioritise what matters most for your preferred role &mdash; nothing is ever hidden, since company fundamentals matter to every role. Use <strong>Search</strong> (top right, or press <code>/</code>) to jump straight to any topic such as &ldquo;QIP&rdquo; or &ldquo;DCF&rdquo; across the whole KT.</p>
+  </div>
+</section>
+
+<section class="kt-section" id="how-to-use" data-label="How to use this KT">
+  <span class="part-tag">Overview</span>
+  <h2 class="section-title">How to Use This KT</h2>
+  <p class="section-sub">This is built to be navigated, not read top to bottom like a PDF.</p>
+  <div class="card-grid cols-2">
+    <div class="card"><span class="card-eyebrow">01</span><h4>Use the sidebar</h4><p>The left sidebar (slide-out menu on mobile) mirrors the full structure below. It tracks where you are and lets you jump straight to any topic.</p></div>
+    <div class="card"><span class="card-eyebrow">02</span><h4>Filter by role</h4><p>If you know your preferred role, set the role lens to IB, ER or Trading. Relevant sections get a green highlight; nothing else is hidden &mdash; company basics stay visible to everyone.</p></div>
+    <div class="card"><span class="card-eyebrow">03</span><h4>Search anything</h4><p>Press <code>/</code> or click Search to query the entire KT &mdash; company facts, deals, technicals and every question bank entry.</p></div>
+    <div class="card"><span class="card-eyebrow">04</span><h4>Expand what you need</h4><p>Long question banks and detailed explanations are collapsed by default. Click to expand only what you want to drill into.</p></div>
+    <div class="card"><span class="card-eyebrow">05</span><h4>Track your progress</h4><p>The sidebar shows how much of Part 1 and Part 2 you&rsquo;ve been through. Tick off the Final Checklist as you genuinely prepare each item.</p></div>
+    <div class="card"><span class="card-eyebrow">06</span><h4>30 minutes before the interview</h4><p>Skip straight to the <a href="#quick-prep">Interview Tomorrow?</a> rail for the ten things to revise last.</p></div>
+  </div>
+  <div class="callout must">
+    <div class="co-label">Must know</div>
+    <p>This KT distinguishes <strong>sourced facts</strong> (Axis Capital&rsquo;s own disclosures, press reports) from <strong>reported interview experiences</strong> (what past candidates say they were asked) and from <strong>preparation advice</strong>. A reported question is evidence of a pattern &mdash; not a guarantee of what you will be asked.</p>
+  </div>
+</section>
+
+<section class="kt-section" id="quick-prep" data-label="Interview Tomorrow?">
+  <span class="part-tag">Quick prep</span>
+  <h2 class="section-title">Interview Tomorrow?</h2>
+  <p class="section-sub">Thirty minutes before your interview, this is the order to revise in. Each step jumps to the real section &mdash; nothing new, just the fastest path through what matters most.</p>
+  <div class="checklist-box" style="margin-top:18px;">
+    <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+      <li><a class="qp-row" href="#fit"><span class="qp-n mono">1</span><span><strong>Why Finance</strong><br><span class="qp-d">Your motivation answer, rehearsed and specific.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#fit"><span class="qp-n mono">2</span><span><strong>Why your Role</strong><br><span class="qp-d">IB / ER / Trading &mdash; why this one, with a ranked preference ready.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#why-axis"><span class="qp-n mono">3</span><span><strong>Why Axis</strong><br><span class="qp-d">ENAM heritage, ECM strength, the integrated platform.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#why-axis"><span class="qp-n mono">4</span><span><strong>Axis in 60 Seconds</strong><br><span class="qp-d">The elevator-pitch answer to &ldquo;what exactly does Axis Capital do?&rdquo;</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#stock-pitch"><span class="qp-n mono">5</span><span><strong>One Stock Pitch</strong><br><span class="qp-d">Recommendation &rarr; thesis &rarr; valuation &rarr; catalyst &rarr; risk &rarr; target, cold.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#transactions"><span class="qp-n mono">6</span><span><strong>Recent Axis Deals</strong><br><span class="qp-d">NSE, Manipal Health and at least one QIP / M&amp;A / InvIT transaction.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#news"><span class="qp-n mono">7</span><span><strong>Current News</strong><br><span class="qp-d">The last three Axis Capital / market stories, each as What &rarr; Why &rarr; Impact.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#technicals"><span class="qp-n mono">8</span><span><strong>Finance Technicals</strong><br><span class="qp-d">Three statements, EV vs Equity Value, P/E, EV/EBITDA, DCF, WACC.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#question-bank" id="qpRoleQs"><span class="qp-n mono">9</span><span><strong>Role-Specific Questions</strong><br><span class="qp-d">Your role&rsquo;s question bank &mdash; set the role lens above to jump to the right one.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+      <li><a class="qp-row" href="#checklist"><span class="qp-n mono">10</span><span><strong>Final Checklist</strong><br><span class="qp-d">Tick off what&rsquo;s actually ready. Anything unticked is your last 30 minutes.</span></span><span class="qp-go">Go &rarr;</span></a></li>
+    </ol>
+  </div>
+</section>
+
+<section class="kt-section" id="glance" data-label="At a Glance">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>At a Glance</h2>
+  <p class="section-sub">Start here if you know nothing about Axis Capital.</p>
+
+  <h3 class="sub-title idx" data-idx>What is Axis Capital?</h3>
+  <p>Axis Capital Limited (ACL) is the <strong>investment banking and institutional equities arm of Axis Bank</strong> and is a <strong>wholly owned subsidiary of Axis Bank</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  <p>At a high level, Axis Capital sits between:</p>
+  <div class="tree-diagram">Companies / Promoters / Government / PE Funds
+  (need capital or strategic advice)
+          │
+          ▼
+     AXIS CAPITAL
+          │
+          ▼
+  Institutional Investors
+  (provide capital, invest in securities)</div>
+  <p>Its business broadly covers:</p>
+  <div class="card-grid cols-2">
+    <div class="card accent-ib" data-role="ib"><span class="card-eyebrow">Investment Banking</span><p>Equity Capital Markets (ECM) &middot; Mergers &amp; Acquisitions (M&amp;A) &middot; Private Fund Raising &middot; InvITs / REITs / Private Credit Syndication</p></div>
+    <div class="card accent-er" data-role="er trading"><span class="card-eyebrow">Institutional Equities</span><p>Equity Research &middot; Cash Equities &middot; Derivatives &middot; Sales &amp; Trading &middot; Corporate Access</p></div>
+  </div>
+  <p>Axis Capital itself describes its offering as a combination of ECM, M&amp;A, private fundraising, InvIT/REIT/private-credit syndication, research, cash equities and derivatives. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <div class="callout must idx" data-idx>
+    <div class="co-label">The simplest way to remember it</div>
+    <p><strong>Axis Bank = Banking.</strong> &nbsp; <strong>Axis Capital = Capital Markets + Investment Banking + Institutional Equities.</strong></p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Axis Capital vs Axis Bank</h3>
+  <p>This is one of the first things you should understand &mdash; and one of the easiest to get asked directly.</p>
+  <div class="table-scroll">
+    <table class="kt-table idx" data-idx>
+      <thead><tr><th>Axis Bank</th><th>Axis Capital</th></tr></thead>
+      <tbody>
+        <tr><td>A universal / commercial bank</td><td>An investment-banking and institutional-equities platform</td></tr>
+        <tr><td>Retail banking, corporate banking, loans, deposits, credit cards, payments, wealth management, treasury, commercial banking</td><td>IPOs, QIPs, OFS, M&amp;A, private equity fundraising, REITs/InvITs, equity research, institutional trading, derivatives, corporate access</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout tip">
+    <div class="co-label">Interview-ready distinction</div>
+    <p>Axis Bank primarily intermediates money through banking products, while <strong>Axis Capital helps companies raise capital and execute strategic transactions</strong>, and helps institutional investors research and trade securities. Axis Capital is a wholly owned subsidiary of Axis Bank. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  </div>
+</section>
+<section class="kt-section" id="history" data-label="History">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>The History &mdash; ENAM &rarr; Axis Capital</h2>
+  <p class="section-sub">Important for understanding why Axis Capital has a strong reputation in Indian capital markets &mdash; this is not a generic &ldquo;long history&rdquo; answer.</p>
+
+  <div class="timeline">
+    <div class="t-item">
+      <span class="t-year mono idx" data-idx>1984 &mdash; ENAM begins</span>
+      <h4>ENAM Securities founded</h4>
+      <p>ENAM started building a franchise in India&rsquo;s capital markets, developing relationships with some of India&rsquo;s largest companies and becoming particularly known for capital-market transactions.</p>
+    </div>
+    <div class="t-item">
+      <span class="t-year mono idx" data-idx>1990s &mdash; Indian capital markets</span>
+      <h4>SEBI registration &amp; marquee IPOs</h4>
+      <p>By 1992, ENAM had registered with SEBI and was involved in taking companies such as <strong>Infosys</strong> and <strong>Zee Entertainment</strong> public. By 1997, it was leading marquee IPOs including <strong>Marico</strong> and <strong>Essar Oil</strong>. ENAM also developed an institutional trading desk around this period. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+    </div>
+    <div class="t-item">
+      <span class="t-year mono idx" data-idx>2000s &mdash; Technology + Investment Banking</span>
+      <h4>India&rsquo;s first tech IPO wave</h4>
+      <p>ENAM participated in India&rsquo;s first major wave of technology IPOs, including companies such as <strong>KPIT Systems</strong> and <strong>Polaris</strong>. It subsequently expanded into a fuller investment-banking platform, including M&amp;A.</p>
+    </div>
+    <div class="t-item">
+      <span class="t-year mono idx" data-idx>2012 &mdash; Axis Bank acquisition</span>
+      <h4>The key event</h4>
+      <p><strong>Axis Bank acquired ENAM&rsquo;s Investment Banking and Institutional Equities business in 2012.</strong> The business was subsequently renamed <strong>Axis Capital</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+    </div>
+    <div class="t-item">
+      <span class="t-year mono idx" data-idx>Post-2012 &mdash; Continued expansion</span>
+      <h4>Franchise built out across new areas</h4>
+      <p>Examples include the <strong>RBL Bank IPO</strong>, the <strong>D-Mart IPO</strong>, <strong>L&amp;T&rsquo;s acquisition of Mindtree</strong>, InvIT/REIT transactions, new-age technology companies, renewable-energy companies and industrial businesses. Axis Capital says it led L&amp;T&rsquo;s acquisition of Mindtree in 2019, which it describes as <strong>India&rsquo;s largest technology M&amp;A transaction at the time</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+    </div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Why does the ENAM legacy matter?</h3>
+  <p>A candidate should not simply say <em>&ldquo;Axis Capital has a long history.&rdquo;</em> The more important point:</p>
+  <div class="callout must">
+    <div class="co-label">Must know</div>
+    <p>ENAM gave Axis Capital <strong>capital-market relationships + transaction experience + institutional-equities capabilities</strong> &mdash; particularly relevant to ECM. Axis Capital describes itself as having maintained a <strong>leadership position in Indian ECM for more than a decade</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  </div>
+  <p>So when you see Axis Capital repeatedly involved in large IPOs, this is not an accidental development &mdash; it is part of the firm&rsquo;s historical DNA.</p>
+</section>
+<section class="kt-section" id="structure" data-label="Business Structure">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Business Structure</h2>
+  <p class="section-sub">Think of Axis Capital as having two major engines.</p>
+  <div class="tree-diagram idx" data-idx>                      AXIS CAPITAL
+                            │
+             ┌──────────────┴──────────────┐
+             │                             │
+      INVESTMENT BANKING            INSTITUTIONAL EQUITIES
+             │                             │
+       ┌─────┼─────┐                ┌──────┼──────┐
+       │     │     │                │      │      │
+      ECM   M&A   Private          Research Sales Trading
+                  Capital
+       │
+       ├── IPO
+       ├── QIP
+       ├── OFS
+       ├── Rights Issue
+       └── Secondary Placement
+
+             │                             │
+             ▼                             ▼
+       CORPORATES / PE               INSTITUTIONAL
+       / GOVERNMENT /                INVESTORS
+       PROMOTERS</div>
+  <p>Everything in Part 1 that follows is really just an elaboration of this one diagram &mdash; <strong>Investment Banking</strong> (ECM, M&amp;A, Private Fund Raising, InvITs/REITs) on one side, and <strong>Institutional Equities</strong> (Research, Sales, Trading, Corporate Access) on the other.</p>
+</section>
+<section class="kt-section" id="ib" data-label="Investment Banking" data-role="ib">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Investment Banking</h2>
+  <p class="section-sub idx" data-idx>Helping companies and financial sponsors with capital raising and strategic transactions. Axis Capital&rsquo;s IB franchise covers ECM, M&amp;A, Private Fund Raising, and InvITs/REITs/Private Credit Syndication. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h3 class="sub-title idx" data-idx>Equity Capital Markets (ECM)</h3>
+  <p>ECM helps companies raise money through equity-linked / public-market transactions. Major products: IPOs, QIPs, OFS, Rights Issues, Follow-on offerings, Block deals, Secondary placements.</p>
+  <div class="callout must">
+    <div class="co-label">Must know</div>
+    <p>Axis Capital says it has been a <strong>leading ECM banker for over a decade</strong> and closed <strong class="num">39</strong> primary and secondary transactions in FY24. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  </div>
+
+  <h4 class="mini-title idx" data-idx>IPO &mdash; Initial Public Offering</h4>
+  <p><strong>Definition:</strong> A private company becomes publicly listed and offers shares to public-market investors.</p>
+  <p><em>Example:</em> Company needs ₹3,000 crore &rarr; decides to IPO &rarr; investment banks advise on valuation, structure, marketing and execution &rarr; investors subscribe &rarr; company gets listed.</p>
+  <p><strong>What does the investment bank actually do?</strong> Understand the business &middot; analyse financials &middot; determine transaction structure &middot; valuation &middot; prepare offer documents &middot; coordinate with regulators &middot; prepare investor presentations &middot; market the transaction &middot; meet institutional investors &middot; book building &middot; pricing &middot; allocation &middot; listing.</p>
+  <div class="callout watch"><div class="co-label">Watch out</div><p>An IPO is much more than &ldquo;selling shares.&rdquo; If your answer stops there, you haven&rsquo;t shown you understand the role.</p></div>
+
+  <h4 class="mini-title idx" data-idx>QIP &mdash; Qualified Institutional Placement</h4>
+  <p><strong>Definition:</strong> A listed company raises capital by issuing shares to qualified institutional buyers &mdash; typically mutual funds, insurance companies, foreign institutional investors and alternative investment funds.</p>
+  <p><strong>Why would a company choose a QIP?</strong> It can be a relatively efficient way to raise substantial capital without conducting another IPO.</p>
+  <p><em>Example:</em> Listed company wants ₹2,000 crore for expansion / debt repayment &rarr; conducts QIP &rarr; institutional investors subscribe &rarr; company receives capital.</p>
+
+  <h4 class="mini-title idx" data-idx>OFS &mdash; Offer for Sale</h4>
+  <p><strong>Definition:</strong> Existing shareholders sell their shares. The company itself generally does <strong>not</strong> receive the proceeds.</p>
+  <p><em>Example:</em> Government owns 20% of a PSU &rarr; wants to reduce its stake &rarr; sells shares through OFS.</p>
+  <div class="table-scroll">
+    <table class="kt-table idx" data-idx>
+      <thead><tr><th>Transaction</th><th>Who is raising / selling?</th></tr></thead>
+      <tbody>
+        <tr><td>IPO &mdash; fresh issue</td><td>Company</td></tr>
+        <tr><td>IPO &mdash; OFS component</td><td>Existing shareholders</td></tr>
+        <tr><td>QIP</td><td>Company</td></tr>
+        <tr><td>OFS</td><td>Existing shareholders</td></tr>
+        <tr><td>Block deal</td><td>Existing shareholder / investor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 class="mini-title idx" data-idx>M&amp;A &mdash; Mergers &amp; Acquisitions</h4>
+  <p>Axis Capital also advises companies on strategic transactions.</p>
+  <div class="card-grid cols-2">
+    <div class="card"><h4>Acquisition</h4><p>Company A wants to acquire Company B. Axis Capital may help with valuation, deal structure, negotiation, due-diligence coordination, financing, regulatory considerations and transaction execution.</p></div>
+    <div class="card"><h4>Divestiture</h4><p>A company wants to sell one of its businesses. The bank can identify buyers, value the business, run the sale process, negotiate and execute.</p></div>
+  </div>
+  <p>Axis Capital highlights experience across <strong>mergers, demergers, group reorganisations and buy-side/sell-side transactions</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h4 class="mini-title idx" data-idx>Private Fund Raising</h4>
+  <p>Not every company wants to go public. A company can instead raise capital from PE funds, VC funds, sovereign funds, family offices or strategic investors &mdash; Axis Capital helps match companies with suitable investors.</p>
+  <div class="flow" style="max-width:420px;">
+    <div class="flow-step">Private company</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">PE / institutional funding</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Growth</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">IPO</div>
+  </div>
+  <p>Axis Capital says its ECM franchise and financial-sponsor relationships allow it to connect companies with suitable investors before they enter public markets &mdash; i.e. <strong>pre-IPO fundraising</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h4 class="mini-title idx" data-idx>InvITs &amp; REITs</h4>
+  <div class="card-grid cols-2">
+    <div class="card"><h4>InvIT &mdash; Infrastructure Investment Trust</h4><p>Pool of infrastructure assets (roads, transmission, power infrastructure) &rarr; trust structure &rarr; investors buy units &rarr; receive distributions from asset cash flows.</p></div>
+    <div class="card"><h4>REIT &mdash; Real Estate Investment Trust</h4><p>Income-generating real estate (office buildings, commercial real estate, warehouses) &rarr; trust &rarr; investors own units &rarr; receive distributions.</p></div>
+  </div>
+  <p>Axis Capital describes itself as a <strong>pioneer in the Indian InvIT/REIT space</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h4 class="mini-title idx" data-idx>What does an IB analyst actually do?</h4>
+  <div class="card-grid cols-2">
+    <div class="card"><h4>Financial analysis</h4><p>P&amp;L, Balance Sheet, Cash Flow, EBITDA, Working Capital, Debt.</p></div>
+    <div class="card"><h4>Valuation</h4><p>DCF, trading comparables, transaction comparables, precedent transactions.</p></div>
+    <div class="card"><h4>Deal execution</h4><p>Pitch decks, information memorandums, management presentations, investor presentations, transaction documents.</p></div>
+    <div class="card"><h4>Research &amp; modelling</h4><p>Industry research, competitor benchmarking, market sizing, investor research; building financial models to answer: what is the company worth, how much capital does it need, what happens under different scenarios?</p></div>
+  </div>
+</section>
+<section class="kt-section" id="ie" data-label="Institutional Equities">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Institutional Equities</h2>
+  <p class="section-sub">The basic difference from IB: <strong>Investment Banking</strong> helps the company raise money / execute a transaction. <strong>Institutional Equities</strong> helps investors understand, access and trade the market.</p>
+  <div class="callout must">
+    <div class="co-label">Must know</div>
+    <p>Axis Capital says its institutional-equities franchise serves approximately <strong class="num">120</strong> domestic institutions and <strong class="num">232</strong> foreign institutional investors. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span> Clients include mutual funds, insurance companies, FIIs, pension funds, sovereign funds and alternative investment funds.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Equity Research</h3>
+  <p data-role="er" class="idx" data-idx>The analytical side of Institutional Equities. The fundamental question: <strong>&ldquo;What is this company worth, and is the stock attractive at the current price?&rdquo;</strong></p>
+  <div class="card-grid cols-2" data-role="er">
+    <div class="card"><h4>Company</h4><p>Revenue, costs, margins, cash flows, debt, capex, management, competitive advantage.</p></div>
+    <div class="card"><h4>Industry</h4><p>Market size, growth, competition, regulation, industry cycles, market share.</p></div>
+    <div class="card"><h4>Valuation</h4><p>P/E, EV/EBITDA, P/B, DCF, sum-of-the-parts.</p></div>
+    <div class="card"><h4>Output</h4><p>An investment recommendation: <strong>BUY / HOLD / SELL</strong>.</p></div>
+  </div>
+  <p data-role="er">Axis Capital&rsquo;s institutional-equities platform currently says it covers approximately <strong class="num">288</strong> stocks, representing around <strong class="num">69%</strong> of India&rsquo;s market capitalisation, based on its FY26 Q3 disclosure. <span class="source">Source: AxisBank</span></p>
+  <p data-role="er">Research isn&rsquo;t only financial models &mdash; it involves company meetings, management interactions, industry research, channel checks, competitor analysis, macro research and thematic research.</p>
+  <div class="callout tip" data-role="er">
+    <div class="co-label">Channel checks, illustrated</div>
+    <p>Suppose Asian Paints says demand is recovering. An analyst might speak to <strong>dealers, distributors, contractors and suppliers</strong> to test whether what management says is actually happening on the ground &mdash; this is why research is different from simply reading annual reports.</p>
+  </div>
+  <h4 class="mini-title idx" data-idx>What does an ER analyst&rsquo;s workflow look like?</h4>
+  <div class="flow idx" data-idx data-role="er">
+    <div class="flow-step">Industry</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Company</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Financials</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Business Drivers</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Forecast</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Valuation</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Investment Thesis</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Target Price</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">BUY / HOLD / SELL</div>
+  </div>
+  <p data-role="er">A good analyst isn&rsquo;t just someone who knows Excel &mdash; the real skill is <strong>turning information into an investment view.</strong></p>
+
+  <h3 class="sub-title idx" data-idx>Sales &amp; Trading</h3>
+  <p data-role="trading" class="idx" data-idx>Where Institutional Equities meets the market. A large institutional investor may say &ldquo;I want to buy ₹100 crore of Reliance&rdquo; &mdash; the trading desk helps execute that order. But execution isn&rsquo;t simply <em>buy &rarr; done</em>: the trader must consider liquidity, market impact, timing, order size, volatility, price, available counterparties and confidentiality.</p>
+  <p data-role="trading">Axis Capital offers both <strong>high-touch</strong> and <strong>low-touch</strong> execution across cash and derivatives. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  <div class="table-scroll" data-role="trading">
+    <table class="kt-table idx" data-idx>
+      <thead><tr><th>High-Touch</th><th>Low-Touch</th></tr></thead>
+      <tbody>
+        <tr><td>Human-intensive execution: client interacts with sales, trader, execution desk</td><td>Technology-driven execution: algorithms, electronic trading, data analytics, automated execution</td></tr>
+        <tr><td>Useful for large orders, complex trades, illiquid securities, situations requiring market intelligence</td><td>Objective: execute efficiently while managing market impact and transaction costs</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h4 class="mini-title idx" data-idx>What does a trading analyst do?</h4>
+  <p data-role="trading">Trading requires a different mindset &mdash; understanding equity markets, market microstructure, liquidity, order types, volatility, derivatives, execution and risk. The trader constantly asks: <strong>&ldquo;How do I execute this order without unnecessarily moving the market?&rdquo;</strong></p>
+
+  <h3 class="sub-title idx" data-idx>Corporate Access</h3>
+  <p class="idx" data-idx data-role="er trading">An interesting bridge between Research and Sales. Institutional investors want access to company management. Axis Capital can facilitate management meetings, investor conferences, roadshows, site visits, speaker sessions and analyst interactions.</p>
+  <p data-role="er trading"><em>Example:</em> A mutual fund wants to understand a company&rsquo;s capex plans &rarr; Axis Capital&rsquo;s research/sales platform arranges a meeting with management.</p>
+</section>
+<section class="kt-section" id="roles-compare" data-label="IB vs ER vs Trading">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>How the Three Campus Roles Differ</h2>
+  <p class="section-sub">Very important for candidates &mdash; you are very likely being considered across more than one of these.</p>
+  <div class="table-scroll">
+    <table class="kt-table idx" data-idx>
+      <thead><tr><th></th><th data-role="ib">Investment Banking</th><th data-role="er">Equity Research</th><th data-role="trading">Trading</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Main client</strong></td><td data-role="ib">Corporates / PE / promoters</td><td data-role="er">Institutional investors</td><td data-role="trading">Institutional investors</td></tr>
+        <tr><td><strong>Main question</strong></td><td data-role="ib">How should capital be raised / transaction executed?</td><td data-role="er">Is this stock attractive?</td><td data-role="trading">How should this trade be executed?</td></tr>
+        <tr><td><strong>Work</strong></td><td data-role="ib">Deal execution</td><td data-role="er">Research &amp; analysis</td><td data-role="trading">Market execution</td></tr>
+        <tr><td><strong>Time horizon</strong></td><td data-role="ib">Months / years</td><td data-role="er">Months / years</td><td data-role="trading">Seconds / days</td></tr>
+        <tr><td><strong>Key skills</strong></td><td data-role="ib">Accounting, valuation, modelling</td><td data-role="er">Financial analysis, valuation</td><td data-role="trading">Markets, execution, speed</td></tr>
+        <tr><td><strong>Main output</strong></td><td data-role="ib">Transaction</td><td data-role="er">Research report / recommendation</td><td data-role="trading">Executed trade</td></tr>
+        <tr><td><strong>Personality</strong></td><td data-role="ib">Detail-oriented, structured</td><td data-role="er">Curious, analytical</td><td data-role="trading">Fast, calm, market-oriented</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout tip">
+    <div class="co-label">Interview tip</div>
+    <p>In short: <strong data-role="ib">IB &rarr; transactions</strong>, <strong data-role="er">ER &rarr; investment thesis</strong>, <strong data-role="trading">Trading &rarr; execution</strong>. If asked &ldquo;why this role over the other two,&rdquo; answer using this exact distinction rather than generic enthusiasm.</p>
+  </div>
+</section>
+<section class="kt-section" id="business-model" data-label="Business Model">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>How Axis Capital Makes Money</h2>
+  <div class="card-grid cols-2">
+    <div class="card accent-ib" data-role="ib"><h4>Investment Banking</h4><p>Primarily <strong>transaction / advisory fees</strong>. <em>Example:</em> a company raises ₹5,000 crore; Axis Capital acts as one of the investment banks and earns a fee for its role in executing the transaction.</p></div>
+    <div class="card accent-er" data-role="er trading"><h4>Institutional Equities</h4><p>Revenue can come from brokerage/commissions, trading execution, institutional research, corporate access and related market services.</p></div>
+  </div>
+  <p>The broader flywheel:</p>
+  <div class="tree-diagram idx" data-idx>CORPORATE
+   │  Needs capital
+   ▼
+AXIS CAPITAL
+   │  IPO / QIP / M&A
+   ▼
+INSTITUTIONAL INVESTORS
+   │  Research + Sales + Trading
+   ▼
+CAPITAL MARKETS</div>
+</section>
+<section class="kt-section" id="sectors" data-label="Sector Coverage">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Axis Capital&rsquo;s Sector Coverage</h2>
+  <p class="section-sub">Axis Capital highlights these as key investment-banking industry verticals. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  <div class="card-grid">
+    <div class="card idx" data-idx><h4>BFSI</h4><p>Banks &middot; NBFCs &middot; Insurance &middot; FinTech</p></div>
+    <div class="card idx" data-idx><h4>Consumer &amp; Retail</h4><p>Consumer goods &middot; Retail &middot; Food &amp; beverages &middot; Consumer technology</p></div>
+    <div class="card idx" data-idx><h4>Industrials</h4><p>Auto &middot; Auto components &middot; Capital goods &middot; Engineering &middot; Defence &middot; EVs &middot; Chemicals &middot; Logistics</p></div>
+    <div class="card idx" data-idx><h4>Infrastructure / Telecom / Real Estate</h4><p>Infrastructure &middot; Telecom &middot; Real estate &middot; Roads &middot; Power</p></div>
+    <div class="card idx" data-idx><h4>Technology &amp; Media</h4><p>IT services &middot; New-age technology &middot; Media</p></div>
+    <div class="card idx" data-idx><h4>Pharma &amp; Healthcare</h4><p>Pharmaceuticals &middot; Hospitals &middot; Healthcare services</p></div>
+  </div>
+</section>
+<section class="kt-section" id="transactions" data-label="Recent Transactions">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>FY25 &mdash; How the Business Performed</h2>
+  <p class="section-sub">A good section for a &ldquo;Why Axis?&rdquo; answer. According to Axis Capital&rsquo;s FY25 disclosures:</p>
+  <div class="stat-row idx" data-idx>
+    <div class="stat"><span class="st-num">61</span><span class="st-label">Investment Banking transactions</span></div>
+    <div class="stat"><span class="st-num">48.6%</span><span class="st-label">growth in IB revenue</span></div>
+    <div class="stat"><span class="st-num">#2</span><span class="st-label">ranked by number of IPOs</span></div>
+    <div class="stat"><span class="st-num">₹160.5cr</span><span class="st-label">PAT</span></div>
+    <div class="stat"><span class="st-num">15%+</span><span class="st-label">increase in research coverage</span></div>
+  </div>
+  <p>Axis Capital also highlighted: strong growth in Cash &amp; Derivatives, a strong InvIT/REIT franchise, and recognition as a major technology banker. Deals cited include the <strong>Vodafone Idea FPO</strong>, <strong>Bajaj Housing IPO</strong>, <strong>Waaree Energies IPO</strong>, <strong>IGI IPO</strong>, and <strong>Motherson Sumi QIP</strong>. <span class="source">Source: BSE India</span></p>
+  <div class="callout must">
+    <div class="co-label">Why this matters</div>
+    <p>The story isn&rsquo;t &ldquo;Axis Capital is an IPO bank.&rdquo; It is: <strong>Axis Capital has a particularly strong ECM franchise, but is building a broader capital-markets platform</strong> across M&amp;A, private capital, InvIT/REIT, research and institutional equities.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>FY26 &mdash; The Business Has Been Very Active</h3>
+  <p>Axis Capital&rsquo;s latest transaction database shows substantial activity during 2026. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  <div class="table-scroll">
+    <table class="kt-table idx" data-idx>
+      <thead><tr><th>Transaction</th><th>Size</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NSE</strong></td><td class="numcell">₹22,562 crore</td><td>IPO</td></tr>
+        <tr><td><strong>Manipal Health</strong></td><td class="numcell">₹9,275 crore</td><td>IPO</td></tr>
+        <tr><td>Rentomojo</td><td class="numcell">₹1,256 crore</td><td>IPO</td></tr>
+        <tr><td>Dhoot Transmission</td><td class="numcell">₹3,067 crore</td><td>IPO</td></tr>
+        <tr><td>Shiprocket</td><td class="numcell">₹1,617 crore</td><td>IPO</td></tr>
+        <tr><td>Milky Mist</td><td class="numcell">₹1,553 crore</td><td>IPO</td></tr>
+        <tr><td>Craftsman Automation</td><td class="numcell">₹2,000 crore</td><td>QIP</td></tr>
+        <tr><td>Altius</td><td class="numcell">₹3,656 crore</td><td>InvIT Block</td></tr>
+        <tr><td>Alkem Laboratories</td><td class="numcell">₹957 crore</td><td>Block</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout tip">
+    <div class="co-label">Minimum deal recall for interview day</div>
+    <p>Know at least: <strong>NSE IPO</strong>, <strong>Manipal Health IPO</strong>, and one recent QIP / M&amp;A / InvIT transaction. See <a href="#news">Recent News</a> for Coca-Cola&rsquo;s Hindustan Coca-Cola Beverages IPO and the Quest Global IPO, where Axis has also been appointed.</p>
+  </div>
+</section>
+<section class="kt-section" id="news" data-label="Recent News">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Recent News &mdash; What You Should Know</h2>
+  <p class="section-sub">Keep this page updated in your own head right up to interview day. September&ndash;October 2026 developments below.</p>
+
+  <div class="news-card idx" data-idx data-role="ib">
+    <div class="news-head"><span class="news-date">September 2026</span><span class="rtag ib">IB</span><span class="rtag er">ER</span></div>
+    <h3>NSE IPO</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Axis Capital is among the book-running lead managers for the National Stock Exchange IPO, alongside a large consortium of domestic and international banks. Axis Capital&rsquo;s own transaction database lists the deal at approximately <strong>₹22,562 crore</strong>, with September 2026 as the transaction month. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span> / <span class="source">The Economic Times</span></p></div>
+      <div class="news-field"><span class="nf-k">Why it matters</span><p>NSE is a core part of India&rsquo;s financial-market infrastructure &mdash; a rich discussion around exchange economics, market infrastructure, IPO valuation, regulatory considerations, network effects, market share and trading volumes.</p></div>
+    </div>
+    <div class="news-q"><span class="nf-k">Possible interview question</span><p>&ldquo;Why might an exchange want to go public?&rdquo; Candidates applying for IB or ER should absolutely know this transaction.</p></div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="ib">
+    <div class="news-head"><span class="news-date">September 2026</span><span class="rtag ib">IB</span></div>
+    <h3>Axis Capital added to Coca-Cola India IPO banking team</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Reports said Coca-Cola was considering a potential IPO of <strong>Hindustan Coca-Cola Beverages</strong>, its Indian bottling business (~<strong>$1 billion</strong>). Axis Capital and IIFL Capital Services were reportedly added to the banking group, alongside Kotak, Citi, JPMorgan and Morgan Stanley. <span class="source">Source: Business Standard</span></p></div>
+      <div class="news-field"><span class="nf-k">Why it matters</span><p>Reinforces Axis Capital&rsquo;s position in large, marquee Indian IPOs.</p></div>
+    </div>
+    <div class="news-q"><span class="nf-k">Possible interview question</span><p>&ldquo;Why would Coca-Cola list its bottling business?&rdquo; &mdash; think capital raising, value discovery/unlocking, Indian consumer growth, public-market access, promoter ownership, capital allocation.</p></div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="ib">
+    <div class="news-head"><span class="news-date">August 2026</span><span class="rtag ib">IB</span></div>
+    <h3>Quest Global IPO</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Reports said Carlyle-backed Quest Global had selected Axis Capital along with Kotak Mahindra Capital, JM Financial, Morgan Stanley and Citi for a potential Indian IPO of up to approximately <strong>$1 billion</strong>. <span class="source">Source: The Economic Times</span></p></div>
+      <div class="news-field"><span class="nf-k">Why it matters</span><p>Another example of Axis participating in the growing pipeline of private equity-backed companies entering India&rsquo;s public markets.</p></div>
+    </div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="ib er">
+    <div class="news-head"><span class="news-date">June 2026</span><span class="rtag ib">IB</span><span class="rtag er">ER</span></div>
+    <h3>IPO market becoming more selective</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Axis Capital MD &amp; CEO <strong>Atul Mehra</strong> said that only around <strong>40%</strong> of the IPO pipeline might actually reach the market, because valuation expectations between issuers and investors had become a challenge. <span class="source">Source: Moneycontrol</span></p></div>
+      <div class="news-field"><span class="nf-k">Why it matters</span><p>His broader argument: the problem isn&rsquo;t necessarily lack of capital, it&rsquo;s <strong>valuation discipline</strong>. High-quality companies at reasonable valuations can attract demand; aggressively priced IPOs may struggle.</p></div>
+    </div>
+    <div class="news-q"><span class="nf-k">Possible interview question</span><p>&ldquo;What do you think about the current IPO market?&rdquo; &mdash; don&rsquo;t say &ldquo;booming.&rdquo; Better: &ldquo;The pipeline remains strong, but the market appears increasingly selective. The key question is no longer simply whether investors have capital, but whether issuers&rsquo; valuation expectations are aligned with what public-market investors are willing to pay.&rdquo;</p></div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="ib er">
+    <div class="news-head"><span class="news-date">September 2026</span><span class="rtag er">ER</span><span class="rtag ib">IB</span></div>
+    <h3>Axis Capital&rsquo;s view on PSU divestment</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Axis Capital argued that reducing government ownership in listed PSUs could potentially raise around <strong>₹6.6 lakh crore</strong> over three years if government ownership were reduced by <strong>15%</strong>. <span class="source">Source: Moneycontrol</span></p></div>
+      <div class="news-field"><span class="nf-k">Why it matters</span><p>A good example of Axis Capital Research influencing a broader market debate &mdash; connects to FPI flows, free float, PSU valuations, divestment and government finances.</p></div>
+    </div>
+    <div class="tree-diagram" style="margin-top:10px;">More PSU stake sales
+        ↓
+Higher free float
+        ↓
+Larger investable universe
+        ↓
+Better market liquidity
+        ↓
+Potentially lower valuation pressure
+        ↓
+More capacity to absorb domestic + foreign capital</div>
+    <p style="margin-top:8px;">It also has a fiscal angle: government receives non-tax revenue from divestment.</p>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="er">
+    <div class="news-head"><span class="news-date">September&ndash;October 2026</span><span class="rtag er">ER</span></div>
+    <h3>Axis Capital&rsquo;s macro view</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>In October 2026, Axis Capital said India&rsquo;s fiscal risks were being supported by strong capex and tax collections &mdash; gross tax revenue had grown <strong>6.5% YoY</strong> while capex growth remained strong. <span class="source">Source: Moneycontrol</span></p></div>
+      <div class="news-field"><span class="nf-k">Also noted</span><p>In September, Axis Capital estimated system liquidity had risen to around <strong>₹11.3 lakh crore</strong>, highlighting the policy challenge for the RBI around absorbing excess liquidity without hurting credit growth or financial markets. <span class="source">Source: Fortune India</span></p></div>
+    </div>
+    <div class="callout tip"><div class="co-label">Why this matters for ER</div><p>Equity research isn&rsquo;t isolated company analysis &mdash; macro variables (interest rates, liquidity, FPI flows, currency) feed straight into valuations, earnings and sector performance.</p></div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="er">
+    <div class="news-head"><span class="news-date">Late September 2026</span><span class="rtag er">ER</span></div>
+    <h3>Axis Capital research on real estate</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Top-seven-city absorption up <strong>4% YoY</strong>, average prices up <strong>8% YoY</strong>, sales value up <strong>13% YoY</strong>; inventory remained relatively comfortable. <span class="source">Source: The Financial Express</span></p></div>
+      <div class="news-field"><span class="nf-k">Preferred names</span><p>Axis Capital retained four preferred names: <strong>DLF, Prestige Estates, Brigade Enterprises, Max Estates.</strong></p></div>
+    </div>
+    <div class="news-q"><span class="nf-k">Why this is useful</span><p>A ready example for an ER candidate of how Axis converts industry-level data into an investment thesis.</p></div>
+  </div>
+
+  <div class="news-card idx" data-idx data-role="er">
+    <div class="news-head"><span class="news-date">2026</span><span class="rtag er">ER</span></div>
+    <h3>Axis Capital research on Adani Green Energy</h3>
+    <div class="news-grid">
+      <div class="news-field"><span class="nf-k">What happened</span><p>Axis Capital recently initiated coverage on Adani Green Energy, with its thesis focused on the company&rsquo;s planned renewable-energy expansion and long-term growth potential &mdash; highlighting the ambition to reach <strong>50 GW</strong> of renewable capacity and seeing significant potential upside. <span class="source">Source: The Economic Times</span></p></div>
+      <div class="news-field"><span class="nf-k">Why this is useful</span><p>Company strategy &rarr; capacity addition &rarr; earnings/cash-flow implications &rarr; valuation &rarr; target price. A clean template for your own stock pitch.</p></div>
+    </div>
+  </div>
+</section>
+<section class="kt-section" id="leadership" data-label="Leadership">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>Leadership</h2>
+  <div class="card-grid cols-2">
+    <div class="card idx" data-idx><span class="card-eyebrow">Managing Director &amp; CEO, Axis Capital</span><h4>Atul Mehra</h4><p>Particularly relevant for candidates because he has been publicly commenting on IPO market conditions, valuations, capital markets and deal activity.</p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">MD &amp; CEO, Axis Bank</span><h4>Amitabh Chaudhry</h4><p>Listed among Axis Capital&rsquo;s leadership/board structure as head of the parent, Axis Bank. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p></div>
+  </div>
+  <div class="callout watch">
+    <div class="co-label">Watch out</div>
+    <p>Know <strong>Atul Mehra &rarr; Axis Capital</strong> and <strong>Amitabh Chaudhry &rarr; Axis Bank</strong>. Don&rsquo;t confuse the two.</p>
+  </div>
+</section>
+<section class="kt-section" id="why-axis" data-label="Why Axis">
+  <span class="part-tag">Part 1 &middot; Company</span>
+  <h2 class="section-title idx" data-idx>What Makes Axis Capital Different?</h2>
+  <p class="section-sub">This is where your &ldquo;Why Axis?&rdquo; answer should come from.</p>
+  <div class="card-grid">
+    <div class="card idx" data-idx><span class="card-eyebrow">1</span><h4>ENAM heritage</h4><p>Four decades of capital-market experience.</p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">2</span><h4>Strong ECM franchise</h4><p>A major participant in India&rsquo;s IPO ecosystem.</p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">3</span><h4>IB + Institutional Equities</h4><p>The firm doesn&rsquo;t operate only on the corporate side &mdash; it also has Research + Sales + Trading + Corporate Access.</p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">4</span><h4>Strong institutional network</h4><p>Approximately <strong>120</strong> domestic institutions and <strong>232</strong> foreign institutional investors. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">5</span><h4>Sector depth</h4><p>BFSI, consumer, industrials, infrastructure, technology, pharma and healthcare.</p></div>
+    <div class="card idx" data-idx><span class="card-eyebrow">6</span><h4>New-age economy exposure</h4><p>Axis Capital explicitly highlights its role in fundraising for technology, renewables, industrials and new-age businesses. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p></div>
+  </div>
+
+  <div class="callout senior">
+    <div class="co-label">Senior round</div>
+    <p><strong>&ldquo;Why Axis and not Goldman / JPM / Morgan Stanley?&rdquo;</strong> Do not attack competitors. <em>&ldquo;What particularly attracts me to Axis is its strong India-focused capital-markets franchise. The combination of its ENAM heritage, strong ECM presence and institutional-equities platform gives it a distinctive position in the Indian market.&rdquo;</em> Then add something specific to your role.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Vision &amp; Values</h3>
+  <blockquote class="callout tip idx" data-idx style="font-style:italic;">
+    <div class="co-label" style="font-style:normal;">Vision</div>
+    <p>&ldquo;To be the preferred financial solutions provider with differentiated client servicing through research-based insights, employee empowerment and innovation.&rdquo; <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  </blockquote>
+  <p><strong>Core values:</strong> Customer Centricity &middot; Teamwork &middot; Ethics &middot; Transparency &middot; Ownership.</p>
+  <p>These aren&rsquo;t just HR points &mdash; connect them to the job: <strong>Ownership</strong> &mdash; taking responsibility for accuracy in a transaction. <strong>Ethics</strong> &mdash; critical given how sensitive IB/markets information is. <strong>Teamwork</strong> &mdash; transactions involve bankers, lawyers, accountants, management, regulators and investors. <strong>Transparency</strong> &mdash; important when communicating risks and transaction information.</p>
+
+  <h3 class="sub-title idx" data-idx>The One Mental Model to Remember</h3>
+  <div class="tree-diagram idx" data-idx>                      AXIS CAPITAL
+                            │
+          ┌─────────────────┴──────────────────┐
+          │                                    │
+   INVESTMENT BANKING                    INSTITUTIONAL EQUITIES
+          │                                    │
+    ┌─────┼─────────┐                 ┌───────┼─────────┐
+    │     │         │                 │       │         │
+   ECM   M&A    Private Capital      ER     Sales    Trading
+    │
+    ├── IPO
+    ├── QIP
+    ├── OFS
+    ├── Rights
+    └── Secondary
+          │                                    │
+          ▼                                    ▼
+      CORPORATES                         INSTITUTIONAL
+      PE FUNDS                           INVESTORS
+      GOVERNMENT                         MF / FII / AIF
+          │                                    │
+          └──────────────┬─────────────────────┘
+                         │
+                         ▼
+                  CAPITAL MARKETS</div>
+
+  <h3 class="sub-title idx" data-idx>What You Should Know Before Your Interview &mdash; Five Layers</h3>
+  <div class="kv">
+    <dt>Layer 1</dt><dd><strong>Company</strong> &mdash; What is Axis Capital? Axis Capital vs Axis Bank? What was ENAM? Who owns Axis Capital? Who is Atul Mehra? What businesses does Axis Capital operate?</dd>
+    <dt>Layer 2</dt><dd><strong>Business</strong> &mdash; What is ECM? What is M&amp;A? What is an IPO? QIP vs OFS? What are InvITs/REITs? What is private fundraising?</dd>
+    <dt>Layer 3</dt><dd><strong>Role</strong> &mdash; If IB: what does an investment banker actually do? If ER: how do you value a company? If Trading: how does institutional trade execution work?</dd>
+    <dt>Layer 4</dt><dd><strong>Market</strong> &mdash; What&rsquo;s happening in Indian IPOs? Are valuations expensive? What is happening with FPI flows and interest rates? What&rsquo;s happening in your preferred sector?</dd>
+    <dt>Layer 5</dt><dd><strong>Axis-specific</strong> &mdash; At least 3&ndash;5 recent Axis transactions (minimum: NSE IPO, Manipal Health IPO, one recent QIP/M&amp;A/InvIT transaction) and, for ER, one recent Axis research call.</dd>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>The &ldquo;Axis Capital in 30 Seconds&rdquo; Answer</h3>
+  <div class="callout must idx" data-idx>
+    <div class="co-label">If someone asks: &ldquo;What exactly does Axis Capital do?&rdquo;</div>
+    <p><em>&ldquo;Axis Capital is the wholly owned investment banking and institutional equities subsidiary of Axis Bank, with roots in ENAM Securities. Its business has two broad pillars: Investment Banking and Institutional Equities. Investment Banking helps corporates, promoters, governments and financial sponsors with transactions such as IPOs, QIPs, OFS, M&amp;A, private fundraising and InvITs and REITs. Institutional Equities serves investors through equity research, cash and derivatives execution, sales and corporate access. So, in simple terms, Axis Capital helps companies raise capital and execute strategic transactions while helping institutional investors research, access and trade Indian markets.&rdquo;</em></p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>The 5 Things to Know Absolutely Before Moving to Part 2</h3>
+  <p>If you have limited preparation time, don&rsquo;t try to memorise the entire document. Know these five extremely well:</p>
+  <ol class="idx" data-idx>
+    <li><strong>Axis = ENAM legacy + Axis Bank backing</strong> &mdash; the historical foundation.</li>
+    <li><strong>Two engines</strong> &mdash; Investment Banking + Institutional Equities.</li>
+    <li><strong>Axis is particularly strong in ECM</strong> &mdash; IPO/QIP/OFS/secondary transactions are extremely important to its identity.</li>
+    <li><strong>The difference between the three campus roles</strong> &mdash; IB &rarr; transactions, ER &rarr; investment thesis, Trading &rarr; execution.</li>
+    <li><strong>What Axis is doing right now</strong> &mdash; NSE IPO (~₹22,562cr), Manipal Health IPO (~₹9,275cr), Coca-Cola&rsquo;s HCCB IPO (Axis reportedly added), Quest Global IPO (~$1bn), the IPO market becoming more selective (Atul Mehra), the ~₹6.6 lakh crore PSU divestment opportunity, and FY25&rsquo;s 61 IB transactions / 48.6% IB revenue growth / #2 by IPO count.</li>
+  </ol>
+  <p>That gives you enough current context to sound like you understand Axis Capital as a business, rather than having memorised its Wikipedia page.</p>
+</section>
+<section class="kt-section" id="interview-process" data-label="Interview Process">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Before You Start: How to Read Part 2</h2>
+  <div class="callout watch idx" data-idx>
+    <div class="co-label">Read this correctly</div>
+    <p>Do not read this as <em>&ldquo;these are the questions Axis will ask me.&rdquo;</em> Read it as <em>&ldquo;these are the areas Axis has historically tested, and this is the depth at which I should be prepared.&rdquo;</em></p>
+  </div>
+  <p>The available evidence suggests Axis Capital interviews combine:</p>
+  <ol>
+    <li>Fit / motivation</li><li>CV and work-experience deep dive</li><li>Finance fundamentals</li><li>Role-specific knowledge</li>
+    <li>Markets / current affairs</li><li>Stock / sector discussion</li><li>Axis-specific knowledge</li><li>Recent deals</li><li>Behavioural / pressure questions</li>
+  </ol>
+  <p>Axis Capital&rsquo;s own careers page reinforces this: it explicitly says candidates are assessed on <strong>financial proficiency, analytical mindset, client-first orientation</strong> and <strong>ability to deliver results</strong>, and its interview guidance asks candidates to prepare both technical/domain knowledge and experience-based questions. <span class="source">Source: <a href="https://www.axiscapital.co.in/public/careers" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h3 class="sub-title idx" data-idx>The Interviewer&rsquo;s Mental Model</h3>
+  <div class="tree-diagram idx" data-idx>                 "Should we hire this person?"
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+       MOTIVATION           ABILITY             FIT
+          │                   │                   │
+     Why Finance?        Finance basics      Work ethic
+     Why Axis?           Valuation           Communication
+     Why Role?           Markets             Pressure
+          │               Stock pitch         Teamwork
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              │
+                        ROLE READINESS
+                              │
+               ┌──────────────┼──────────────┐
+               │              │              │
+              IB             ER           Trading</div>
+  <p>The interviewer is essentially trying to answer: <strong>&ldquo;Can this person understand finance, think clearly, communicate well, and actually wants to do this job?&rdquo;</strong></p>
+
+  <h3 class="sub-title idx" data-idx>Likely Interview Architecture</h3>
+  <div class="flow" style="max-width:380px;">
+    <div class="flow-step">Round 1<span class="fs-note">Buddy / Associate</span></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Round 2<span class="fs-note">AVP / VP</span></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Round 3<span class="fs-note">Director / MD</span></div>
+  </div>
+  <p class="idx" data-idx>The exact process can vary by candidate and role. Recent public reports have also shown VP + MD processes, while historical campus interviews have had multiple seniority levels. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span> <strong>So prepare for progressive depth, not three completely different interviews.</strong></p>
+
+  <h3 class="sub-title idx" data-idx>The &ldquo;Interviewer Can Go Anywhere&rdquo; Rule</h3>
+  <p class="idx" data-idx>One of the biggest mistakes candidates make: they prepare questions in isolation. The actual interview may move like this:</p>
+  <div class="tree-diagram">TMAY → Why Finance? → Why IB? → Previous job → Industry → Company
+valuation → Stock pitch → Recent news → Axis deal → DCF → Why
+Axis? → Pressure → Role preference</div>
+  <p>You need to be able to move across domains without losing your structure.</p>
+
+  <h3 class="sub-title idx" data-idx>What the Interviewer Is Really Looking For</h3>
+  <p class="idx" data-idx>Axis Capital&rsquo;s own careers material gives a useful clue. It says the firm looks for: <strong>Client First</strong> (can you understand the client&rsquo;s needs?), <strong>Deliver Results</strong> (can you execute?), <strong>Financial Proficiency</strong> (do you actually understand finance?), <strong>Analytical Mindset</strong> (can you turn data into insight?). <span class="source">Source: <a href="https://www.axiscapital.co.in/public/careers" target="_blank" rel="noopener">Axis Capital</a></span> That maps almost perfectly onto the interview.</p>
+  <div class="tree-diagram idx" data-idx>                 FINANCE
+                    │
+              Understands
+              the numbers
+                    │
+                    ▼
+MARKETS ───────► CANDIDATE ◄─────── AXIS
+                    │
+              Understands
+              the business
+                    │
+                    ▼
+              COMMUNICATION
+                    │
+                    ▼
+                EXECUTION</div>
+  <p>You don&rsquo;t need to be the person who knows the most obscure finance formula. You need to demonstrate: <strong>&ldquo;I understand finance, I follow markets, I understand this company, I know why I want this role, and I can think clearly when you challenge my assumptions.&rdquo;</strong></p>
+</section>
+<section class="kt-section" id="round-buddy" data-label="Round 1: Buddy">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Round 1 &mdash; Buddy / Associate</h2>
+  <div class="callout tip">
+    <div class="co-label">Primary objective</div>
+    <p class="idx" data-idx>The first interviewer is likely trying to establish: <strong>&ldquo;Does this person genuinely understand what they are applying for?&rdquo;</strong> Expect a relatively conversational start.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Section A &mdash; Tell Me About Yourself</h3>
+  <p>Almost certain. Possible variations: &ldquo;Tell me about yourself&rdquo; &middot; &ldquo;Walk me through your CV&rdquo; &middot; &ldquo;Tell me about your background&rdquo; &middot; &ldquo;Give me your introduction&rdquo; &middot; &ldquo;What have you done so far?&rdquo; &middot; &ldquo;Why did you choose your undergraduate degree?&rdquo; &middot; &ldquo;Why did you decide to pursue an MBA?&rdquo;</p>
+  <h4 class="mini-title idx" data-idx>Recommended structure</h4>
+  <div class="flow" style="max-width:360px;">
+    <div class="flow-step">Past<span class="fs-note">Education / Work</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Key Experience<span class="fs-note">Finance exposure</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Why Finance</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Why This Role</div>
+  </div>
+  <p>Keep it around <strong>60&ndash;90 seconds</strong>. Don&rsquo;t give a biography.</p>
+
+  <h3 class="sub-title idx" data-idx>TMAY &mdash; What They Are Actually Evaluating</h3>
+  <p class="idx" data-idx>Your TMAY isn&rsquo;t only about your story. The interviewer is observing: <strong>1. Communication</strong> &mdash; can you communicate clearly? <strong>2. Prioritisation</strong> &mdash; do you know what is important? <strong>3. Finance motivation</strong> &mdash; why are you sitting in front of them? <strong>4. Confidence</strong> &mdash; can you speak without sounding rehearsed? <strong>5. Logical narrative</strong> &mdash; does your career path make sense?</p>
+
+  <h3 class="sub-title idx" data-idx>Follow-Up Questions From TMAY</h3>
+  <p>Anything you mention can become the next question. Never put something into your TMAY that you cannot defend.</p>
+  <div class="tree-diagram idx" data-idx>"I worked in fintech."
+        ↓
+What did the company do?
+        ↓
+How did it make money?
+        ↓
+What were the unit economics?
+        ↓
+Why did you leave?
+        ↓
+Why IB?</div>
+  <div class="callout tip">
+    <div class="co-label">Carries into later rounds</div>
+    <p>The CV round (every bullet drilled with WHAT / WHY / HOW / YOU / NUMBERS) and your Why Finance / Why Role / Why Axis answers get tested here first, then revisited more aggressively in senior rounds. See <a href="#cv">CV Deep Dive</a> and <a href="#fit">Fit &amp; Motivation</a>.</p>
+  </div>
+</section>
+<section class="kt-section" id="round-vp" data-label="Round 2: VP/AVP">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Round 2 &mdash; AVP / VP</h2>
+  <div class="callout watch">
+    <div class="co-label">Evidence caveat</div>
+    <p>The public evidence doesn&rsquo;t give a clean, guaranteed breakdown of exactly which questions appear at which seniority level. What it does show: a <strong>February 2026 Associate candidate reported two rounds &mdash; VP, then MD</strong> &mdash; and that rounds generally go <strong>deeper</strong>, not sideways. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  </div>
+  <p>Treat this round as where the Round&nbsp;1 fit narrative gets <strong>pressure-tested with technical depth and a real market view</strong> rather than reintroduced from scratch.</p>
+  <h4 class="mini-title idx" data-idx>Your stock pitch will be attacked</h4>
+  <p class="idx" data-idx>Suppose you say &ldquo;I recommend buying Company X.&rdquo; Expect: <em>Why? &rarr; Isn&rsquo;t the stock expensive? &rarr; What if growth falls? &rarr; What&rsquo;s the bear case? &rarr; What does the market already know? &rarr; What&rsquo;s your catalyst? &rarr; Who is the competitor? &rarr; Why isn&rsquo;t the competitor better? &rarr; What would make you SELL?</em> The goal isn&rsquo;t to be right &mdash; it&rsquo;s to demonstrate <strong>structured investment thinking</strong>. Full framework: <a href="#stock-pitch">Stock Pitch</a>.</p>
+  <h4 class="mini-title idx" data-idx>Conceptual valuation follow-ups</h4>
+  <div class="divider-list idx" data-idx>
+    <div><strong>&ldquo;What happens to DCF valuation if WACC increases?&rdquo;</strong> &mdash; Valuation decreases.</div>
+    <div><strong>&ldquo;What happens if terminal growth increases?&rdquo;</strong> &mdash; Valuation increases, because terminal cash flows become more valuable.</div>
+    <div><strong>&ldquo;Why can&rsquo;t you use WACC for equity value directly?&rdquo;</strong> &mdash; Because WACC discounts FCFF, which produces Enterprise Value. For FCFE, you&rsquo;d use cost of equity and arrive directly at equity value.</div>
+  </div>
+  <p>Reported Associate-level evidence also mentions being asked about <strong>a company the candidate had been tracking and their own analysis of it</strong> &mdash; i.e. having a genuine market view matters more than reciting definitions. <span class="reported">Reported Interview Experience</span> <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+</section>
+
+<section class="kt-section" id="round-md" data-label="Round 3: Director/MD">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Round 3 &mdash; Director / MD</h2>
+  <p class="idx" data-idx>Typically the most senior and final round, where overall conviction, judgment and fit are tested &mdash; the Feb 2026 reported Associate process ended with an MD round after VP. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  <div class="callout senior idx" data-idx>
+    <div class="co-label">Senior round</div>
+    <p><strong>&ldquo;Why Axis and not Goldman / JPM / Morgan Stanley?&rdquo;</strong> Do not attack competitors. <em>&ldquo;What particularly attracts me to Axis is its strong India-focused capital-markets franchise. The combination of its ENAM heritage, strong ECM presence and institutional-equities platform gives it a distinctive position in the Indian market.&rdquo;</em> Then add something specific to your role.</p>
+  </div>
+  <p>Older IIM transcript evidence from this stage of seniority also covered: Axis-specific knowledge, favourite stock pitched end-to-end, a recent Axis deal, role preference, recent industry developments, macro questions and <strong>long-term career plans</strong>. <span class="reported">Reported Interview Experience</span> <span class="source">Source: <a href="https://www.scribd.com/document/820776412/Team-Disha-Summers-Company-Compendium-2022-1" target="_blank" rel="noopener">Scribd &mdash; IIM compendium</a></span></p>
+  <h4 class="mini-title idx" data-idx>Questions for senior interviewers</h4>
+  <p class="idx" data-idx>At the end: &ldquo;Do you have any questions for us?&rdquo; Don&rsquo;t say &ldquo;No, I think I&rsquo;m good.&rdquo; Prepare 2&ndash;3:</p>
+  <div class="divider-list">
+    <div data-role="ib"><strong>IB:</strong> &ldquo;What distinguishes analysts who become strong performers in the first year?&rdquo;</div>
+    <div data-role="er"><strong>ER:</strong> &ldquo;How does the team balance deep fundamental research with faster-moving market developments?&rdquo;</div>
+    <div data-role="trading"><strong>Trading:</strong> &ldquo;How has the increasing use of electronic and algorithmic execution changed the way the trading desk operates?&rdquo;</div>
+    <div><strong>General:</strong> &ldquo;What do you think differentiates Axis&rsquo;s institutional-equities franchise from other domestic platforms?&rdquo;</div>
+  </div>
+  <div class="callout watch idx" data-idx>
+    <div class="co-label">Watch out &mdash; questions NOT to ask</div>
+    <p>Avoid: &ldquo;How many hours do I have to work?&rdquo; &middot; &ldquo;What&rsquo;s the salary?&rdquo; &middot; &ldquo;When will I get promoted?&rdquo; &middot; &ldquo;How many leaves do I get?&rdquo; These aren&rsquo;t necessarily wrong, but not ideal in a final senior interview unless the interviewer invites them.</p>
+  </div>
+</section>
+<section class="kt-section" id="interview-trends" data-label="Interview Trends">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>What the Recent Interview Evidence Says</h2>
+  <p class="section-sub">The number of publicly available Axis Capital-specific interview reports is small &mdash; so treat the following as a pattern, not a guaranteed script.</p>
+
+  <div class="news-card idx" data-idx>
+    <span class="reported">Reported Interview Experience</span>
+    <div class="news-head"><span class="news-date">February 2026 &middot; Associate</span></div>
+    <p>Two rounds &mdash; VP, then MD. Online. Moderate difficulty. The candidate specifically reported being asked about <strong>a company they had been tracking and their analysis of it</strong>. This is extremely relevant: it suggests having an actual market view, rather than merely knowing finance definitions, matters. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  </div>
+  <div class="news-card idx" data-idx data-role="ib">
+    <span class="reported">Reported Interview Experience</span>
+    <div class="news-head"><span class="news-date">September 2025 &middot; Investment Banking Associate (campus)</span></div>
+    <p>Hypothetical finance questions, technical ability, soft skills. The explicitly reported question: <strong>&ldquo;Why do I want to be in investment banking?&rdquo;</strong> &mdash; reinforcing the importance of a coherent Why IB over simply preparing technicals. <span class="source">Source: <a href="https://www.glassdoor.com/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  </div>
+  <div class="news-card idx" data-idx>
+    <span class="reported">Reported Interview Experience</span>
+    <div class="news-head"><span class="news-date">October 2025 &middot; Intern (university)</span></div>
+    <p>Online interview, generic finance questions, PE, IB, finance background, previous experience, course structure, projects, learning. Reported question: <strong>&ldquo;Tell about Private Equity and startups.&rdquo;</strong> Don&rsquo;t assume every question will be a textbook valuation question. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Historical IIM Evidence</h3>
+  <p class="idx" data-idx>A detailed Axis Capital interview transcript appears in an IIM student interview compendium. It is older, so don&rsquo;t treat the exact questions as current &mdash; but the <strong>themes</strong> overlap heavily with the recent 2025&ndash;26 reports: TMAY, Why IB, work-experience discussion, what you know about Axis Capital, whether you follow the stock market, favourite stock, pitch the stock, a recent Axis deal, the nature of IB work, role preference, recent industry developments, technical finance questions, macro questions, long-term career plans. <span class="reported">Reported Interview Experience</span> <span class="source">Source: <a href="https://www.scribd.com/document/820776412/Team-Disha-Summers-Company-Compendium-2022-1" target="_blank" rel="noopener">Scribd &mdash; IIM compendium</a></span></p>
+
+  <div class="callout trend idx" data-idx style="margin-top:28px;">
+    <div class="co-label">Recent trend / bottom line</div>
+    <p>Based on the 2025&ndash;26 public reports, the strongest recent signal is that the interview isn&rsquo;t necessarily an exotic finance quiz. Recent candidates describe <strong>moderate finance interviews, hypothetical finance questions, role motivation, company/stock analysis and background discussions.</strong> The older IIM evidence adds the depth layer: Axis knowledge, stock pitches, recent deals, role preference, macro, valuation and work-experience grilling.</p>
+  </div>
+  <h4 class="mini-title idx" data-idx>Recommended preparation order</h4>
+  <div class="tree-diagram idx" data-idx>WHY FINANCE → WHY ROLE → WHY AXIS → CV → STOCK → SECTOR →
+AXIS DEALS → FINANCE TECHNICALS → CURRENT AFFAIRS → ROLE-SPECIFIC DEPTH</div>
+</section>
+<section class="kt-section" id="fit" data-label="Fit & Motivation">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Fit &amp; Motivation</h2>
+  <p class="section-sub">The highest-priority questions in the whole interview. If your technicals are good but your motivation sounds generic, you will lose ground here.</p>
+
+  <h3 class="sub-title idx" data-idx>Why Finance?</h3>
+  <p class="idx" data-idx>A recent Axis Capital IB interview explicitly reported: <strong>&ldquo;Why do I want to be in investment banking?&rdquo;</strong> <span class="reported">Reported Interview Experience</span> <span class="source">Source: <a href="https://www.glassdoor.com/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span> Your answer should answer why you like finance <em>and</em> why you want to build a career in it.</p>
+  <div class="card-grid cols-2">
+    <div class="card" style="border-left:3px solid var(--red);"><h4>Weak answer</h4><p>&ldquo;I have always been interested in numbers and finance is a lucrative career.&rdquo;</p></div>
+    <div class="card accent-er"><h4>Better</h4><p>&ldquo;I enjoy understanding how businesses create value, but what attracts me to finance is the ability to evaluate that value through financial performance, capital allocation and market expectations.&rdquo;</p></div>
+  </div>
+  <div class="flow" style="max-width:380px;">
+    <div class="flow-step">Past exposure</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">What I discovered</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Why finance specifically</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">What part of finance interests me</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Why this role</div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Why Investment Banking?</h3>
+  <p class="idx" data-idx data-role="ib">This needs to be different from Why Finance. <strong>Why Finance</strong> = why the broader field. <strong>Why IB</strong> = why this particular job. A strong IB answer should demonstrate you understand IB = <strong>advising companies on capital raising + strategic transactions + execution</strong> &mdash; mention IPOs, M&amp;A, capital raising, valuation, client interaction, transaction execution.</p>
+  <div class="callout watch" data-role="ib">
+    <div class="co-label">The follow-up that exposes weak prep</div>
+    <p>If you say &ldquo;I like the strategic nature of investment banking,&rdquo; expect: <em>What do you mean by strategic? What does an investment banker actually do? Explain an IPO to me. How does Axis make money from an IPO?</em> Your motivation answer needs to be built on actual understanding &mdash; see <a href="#ib">Investment Banking</a>.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Why Equity Research?</h3>
+  <p class="idx" data-idx data-role="er">Don&rsquo;t say &ldquo;I like stocks&rdquo; &mdash; that&rsquo;s not enough. Stronger: <em>&ldquo;I enjoy going deep into businesses, understanding industry economics, forming a differentiated view and then translating that view into a valuation and investment recommendation.&rdquo;</em> Key words: <strong>Business &rarr; Analysis &rarr; Thesis &rarr; Valuation &rarr; Recommendation.</strong> Axis&rsquo;s research platform itself emphasises actionable research, thematic work, company coverage and differentiated products such as &ldquo;Feet on the Street&rdquo; channel checks and annual-report analysis. <span class="source">Source: <a href="https://www.axiscapital.co.in/public/institutional-equities" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h3 class="sub-title idx" data-idx>Why Trading?</h3>
+  <p class="idx" data-idx data-role="trading">Demonstrate that trading isn&rsquo;t simply &ldquo;buying and selling stocks.&rdquo; Talk about markets, speed, decision-making, liquidity, execution, risk, market microstructure. <em>&ldquo;What attracts me to trading is the combination of real-time decision-making, market behaviour and execution. Unlike research, where the investment thesis can develop over days or weeks, trading requires continuously processing information and deciding how to act while managing risk.&rdquo;</em></p>
+
+  <h3 class="sub-title idx" data-idx>Why Axis Capital?</h3>
+  <p>Don&rsquo;t say &ldquo;Axis is a prestigious company.&rdquo; Full five-reason framework and the &ldquo;why Axis and not Goldman/JPM&rdquo; senior-round answer live on <a href="#why-axis">Why Axis</a> and <a href="#round-md">Round 3: Director/MD</a>.</p>
+
+  <h3 class="sub-title idx" data-idx>&ldquo;Which Role Do You Prefer?&rdquo;</h3>
+  <p class="idx" data-idx>Especially important since candidates are being considered across IB / ER / Trading. Don&rsquo;t say &ldquo;anything is fine&rdquo; or &ldquo;I don&rsquo;t know enough about the roles yet.&rdquo; Better: <em>&ldquo;My first preference is IB because&nbsp;____. I also find ER interesting because&nbsp;____. If I had to choose one, I would prioritise IB.&rdquo;</em> Have a clear hierarchy.</p>
+  <div class="callout tip">
+    <div class="co-label">Follow-up</div>
+    <p>&ldquo;Why IB over ER?&rdquo; or &ldquo;Why ER over IB?&rdquo; &mdash; answer using the real distinction: <strong>IB = transactions, ER = investment thesis, Trading = execution.</strong> See <a href="#roles-compare">IB vs ER vs Trading</a>.</p>
+  </div>
+</section>
+<section class="kt-section" id="cv" data-label="CV Deep Dive">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>The CV Round</h2>
+  <p class="section-sub idx" data-idx>Many candidates underestimate this round. Axis&rsquo;s own hiring guidance explicitly tells candidates to prepare experience-based questions around their role, their actions, their challenges and their achievements &mdash; rather than hiding behind what &ldquo;the team&rdquo; did &mdash; and specifically recommends the <strong>STAR</strong> framework. <span class="source">Source: <a href="https://www.axiscapital.co.in/how-to-stand-out" target="_blank" rel="noopener">Axis Capital</a></span></p>
+
+  <h3 class="sub-title idx" data-idx>Prepare every CV bullet using this framework</h3>
+  <div class="card-grid idx" data-idx>
+    <div class="card"><h4>What?</h4><p>What exactly happened?</p></div>
+    <div class="card"><h4>Why?</h4><p>Why was it important?</p></div>
+    <div class="card"><h4>How?</h4><p>How did you execute it?</p></div>
+    <div class="card"><h4>You?</h4><p>What did you personally do?</p></div>
+    <div class="card"><h4>Numbers?</h4><p>What changed?</p></div>
+    <div class="card"><h4>Business?</h4><p>What was the business impact?</p></div>
+    <div class="card"><h4>Learning?</h4><p>What did you learn?</p></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Example CV drill</h3>
+  <p>Candidate says: <em>&ldquo;Reduced cost by 30%.&rdquo;</em></p>
+  <div class="tree-diagram idx" data-idx>Interviewer: How?
+Candidate: "Automated the process."
+Interviewer: How exactly? Which process? Why was it
+manual? What tool? How many people? What was the
+baseline? How did you calculate 30%? What were the
+risks? Who implemented it? What would you do differently?</div>
+  <div class="callout must">
+    <div class="co-label">Must know</div>
+    <p>Your CV = your technical interview syllabus. Every number, tool and claim on it is fair game.</p>
+  </div>
+</section>
+<section class="kt-section" id="technicals" data-label="Finance Technicals" data-role="ib er">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Finance Technicals</h2>
+  <p class="section-sub">Every candidate should know accounting basics: P&amp;L, Balance Sheet, Cash Flow, Revenue, EBITDA, EBIT, PAT, Working Capital, Depreciation, Amortisation, Capex, Debt.</p>
+
+  <h3 class="sub-title idx" data-idx>The Three Financial Statements</h3>
+  <div class="card-grid">
+    <div class="card idx" data-idx><h4>Income Statement</h4><p>Measures profitability over a period.</p><div class="tree-diagram" style="padding:10px;font-size:11.5px;">Revenue
+− Expenses = EBITDA
+− Depreciation = EBIT
+− Interest − Taxes = PAT</div></div>
+    <div class="card idx" data-idx><h4>Balance Sheet</h4><p>Measures financial position at a point in time.</p><div class="tree-diagram" style="padding:10px;font-size:12.5px;">Assets = Liabilities + Equity</div></div>
+    <div class="card idx" data-idx><h4>Cash Flow Statement</h4><p>Explains how cash moved during the period, in three sections:</p><p>1. CFO &nbsp; 2. CFI &nbsp; 3. CFF</p></div>
+  </div>
+
+  <h4 class="mini-title idx" data-idx>Three-statement question</h4>
+  <div class="callout common idx" data-idx>
+    <div class="co-label">Common question</div>
+    <p><strong>&ldquo;If depreciation increases by ₹10, what happens?&rdquo;</strong> (assume tax = 25%)</p>
+    <div class="news-grid" style="margin-top:10px;">
+      <div class="news-field"><span class="nf-k">P&amp;L</span><p>EBIT ↓ ₹10 &middot; Tax ↓ ₹2.5 &middot; PAT ↓ ₹7.5</p></div>
+      <div class="news-field"><span class="nf-k">Cash Flow</span><p>PAT ↓ ₹7.5, Depreciation added back +₹10 &rarr; CFO ↑ ₹2.5</p></div>
+      <div class="news-field"><span class="nf-k">Balance Sheet</span><p>PP&amp;E ↓ ₹10, Cash ↑ ₹2.5, Retained earnings ↓ ₹7.5 &rarr; Total assets ↓ ₹7.5 = Equity ↓ ₹7.5. Balanced.</p></div>
+    </div>
+    <p style="margin-top:8px;">This is the kind of question candidates should be able to answer without hesitation.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Working Capital</h3>
+  <p class="idx" data-idx><strong>Working Capital = Current Assets − Current Liabilities</strong> (operationally: AR + Inventory − AP)</p>
+  <div class="table-scroll"><table class="kt-table">
+    <thead><tr><th>Change</th><th>Usual effect</th></tr></thead>
+    <tbody>
+      <tr><td>Inventory increases</td><td>Cash gets tied up &rarr; CFO decreases</td></tr>
+      <tr><td>Accounts receivable increases</td><td>Sales booked but cash not collected &rarr; CFO decreases</td></tr>
+      <tr><td>Accounts payable increases</td><td>Company has delayed cash payment &rarr; CFO increases</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="sub-title idx" data-idx>EBITDA</h3>
+  <p class="idx" data-idx><strong>EBITDA</strong> = Earnings Before Interest, Taxes, Depreciation &amp; Amortisation. Used as a rough measure of operating performance before financing, taxes and certain non-cash charges.</p>
+  <div class="callout watch"><div class="co-label">Watch out</div><p><strong>EBITDA ≠ cash flow</strong>, because companies still have taxes, working-capital requirements, capex, interest and other cash expenses.</p></div>
+
+  <h3 class="sub-title idx" data-idx>Valuation &mdash; Level 1</h3>
+  <div class="card-grid cols-2">
+    <div class="card idx" data-idx><h4>Equity Value</h4><p>Value attributable to shareholders.</p></div>
+    <div class="card idx" data-idx><h4>Enterprise Value</h4><p>Approximate value attributable to all capital providers.</p></div>
+  </div>
+  <p class="idx" data-idx>A common bridge: <strong>EV = Equity Value + Debt + Preferred Stock + Minority Interest − Cash.</strong> Know the logic, not just the formula.</p>
+
+  <h4 class="mini-title idx" data-idx>P/E</h4>
+  <p class="idx" data-idx><strong>P/E = Market Price per Share / EPS</strong> (or Equity Value / Net Income). Useful when comparing companies with reasonably comparable capital structures, accounting and business models.</p>
+
+  <h4 class="mini-title idx" data-idx>EV/EBITDA</h4>
+  <p class="idx" data-idx><strong>EV / EBITDA</strong> is useful because EV captures debt + equity while EBITDA is before interest &mdash; allowing more comparable operating-business valuation across different capital structures.</p>
+
+  <h3 class="sub-title idx" data-idx>DCF</h3>
+  <p class="idx" data-idx>You should be able to explain DCF in 30 seconds: forecast future free cash flows &rarr; discount them to present value &rarr; calculate terminal value &rarr; add them &rarr; arrive at enterprise value &rarr; bridge to equity value.</p>
+  <div class="flow idx" data-idx style="max-width:340px;">
+    <div class="flow-step">Future Cash Flows</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Forecast</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Discount using WACC</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Present Value</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">+ Terminal Value</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Enterprise Value</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">− Net Debt</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Equity Value</div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>WACC</h3>
+  <p class="idx" data-idx><strong>Weighted Average Cost of Capital</strong> &mdash; the blended required return of the company&rsquo;s capital providers. Conceptually: <strong>Cost of Equity × Equity Weight + After-tax Cost of Debt × Debt Weight.</strong></p>
+
+  <h4 class="mini-title idx" data-idx>Senior interviewer valuation questions</h4>
+  <details class="qa"><summary><span class="qmark mono">?</span>What happens to DCF valuation if WACC increases?</summary><div class="qa-body"><p>Valuation decreases &mdash; future cash flows are discounted more heavily.</p></div></details>
+  <details class="qa"><summary><span class="qmark mono">?</span>What happens if terminal growth increases?</summary><div class="qa-body"><p>Valuation increases, because terminal cash flows become more valuable.</p></div></details>
+  <details class="qa"><summary><span class="qmark mono">?</span>Why can&rsquo;t you use WACC for equity value directly?</summary><div class="qa-body"><p>Because WACC discounts FCFF, which produces Enterprise Value. For FCFE, you&rsquo;d use cost of equity and arrive directly at equity value.</p></div></details>
+</section>
+<section class="kt-section" id="stock-pitch" data-label="Stock Pitch" data-role="er">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Stock Pitch</h2>
+  <p class="section-sub idx" data-idx>One of the most important areas &mdash; recent evidence specifically shows company analysis being discussed, while older Axis interview records explicitly included stock pitching. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  <div class="callout must"><div class="co-label">Must know</div><p>Prepare <strong>one stock extremely well</strong>. Not fifteen stocks badly.</p></div>
+
+  <h3 class="sub-title idx" data-idx>Stock Pitch Framework</h3>
+  <div class="flow idx" data-idx style="max-width:420px;">
+    <div class="flow-step">1 &middot; Recommendation<span class="fs-note">BUY / HOLD / SELL</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">2 &middot; Company<span class="fs-note">What does it do?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">3 &middot; Investment thesis<span class="fs-note">Why is the stock mispriced?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">4 &middot; Industry<span class="fs-note">What is happening?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">5 &middot; Growth<span class="fs-note">What drives revenue?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">6 &middot; Margins<span class="fs-note">What drives profitability?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">7 &middot; Competitive advantage<span class="fs-note">Why does the company win?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">8 &middot; Financials<span class="fs-note">Revenue, EBITDA, PAT, FCF, ROCE, Debt</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">9 &middot; Valuation<span class="fs-note">P/E, EV/EBITDA, DCF</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">10 &middot; Catalyst<span class="fs-note">What changes investor perception?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">11 &middot; Risk<span class="fs-note">What breaks your thesis?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">12 &middot; Target<span class="fs-note">What is your fair value?</span></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>The Interviewer Will Attack Your Pitch</h3>
+  <p class="idx" data-idx>Suppose: &ldquo;I recommend buying Company X.&rdquo; Expect: <em>Why? &rarr; Isn&rsquo;t the stock expensive? &rarr; What if growth falls? &rarr; What&rsquo;s the bear case? &rarr; What does the market already know? &rarr; What&rsquo;s your catalyst? &rarr; Who is the competitor? &rarr; Why isn&rsquo;t the competitor better? &rarr; What would make you SELL?</em></p>
+  <div class="callout tip"><div class="co-label">Interview tip</div><p>The goal isn&rsquo;t to be right. The goal is to demonstrate <strong>structured investment thinking.</strong></p></div>
+
+  <h3 class="sub-title idx" data-idx>Stock pitch checklist</h3>
+  <div class="checklist-box" id="stockPitchChecklist">
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp1"><span>I know the company</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp2"><span>I know its competitors</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp3"><span>I know valuation</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp4"><span>I know the bull case</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp5"><span>I know the bear case</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp6"><span>I know the catalyst</span></label>
+    <label class="checklist-item"><input type="checkbox" data-sp-id="sp7"><span>I know what would invalidate my thesis</span></label>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Sector Pitch</h3>
+  <p class="idx" data-idx>Candidates should also prepare one sector. Good sectors: Banking, NBFC, Consumer, Auto, IT, Pharma, Healthcare, Real Estate, Defence, Renewable Energy.</p>
+  <div class="card-grid">
+    <div class="card"><h4>Market</h4><p>How large?</p></div>
+    <div class="card"><h4>Growth</h4><p>What is driving it?</p></div>
+    <div class="card"><h4>Structure</h4><p>Who are the leaders?</p></div>
+    <div class="card"><h4>Economics</h4><p>What drives margins?</p></div>
+    <div class="card"><h4>Risks</h4><p>Regulation? Competition? Commodity prices? Interest rates?</p></div>
+    <div class="card"><h4>Valuation</h4><p>Expensive or cheap?</p></div>
+  </div>
+</section>
+<section class="kt-section" id="current-affairs" data-label="Current Affairs">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Recent Deal &amp; Current Affairs Preparation</h2>
+
+  <h3 class="sub-title idx" data-idx>Recent Deal Preparation</h3>
+  <p class="idx" data-idx>Don&rsquo;t just memorise &ldquo;Axis Capital was a bookrunner.&rdquo; For each deal, know:</p>
+  <div class="kv idx" data-idx>
+    <dt>Transaction</dt><dd>What happened?</dd>
+    <dt>Client</dt><dd>Who?</dd>
+    <dt>Size</dt><dd>How much?</dd>
+    <dt>Structure</dt><dd>IPO / QIP / OFS / M&amp;A?</dd>
+    <dt>Rationale</dt><dd>Why did the transaction happen?</dd>
+    <dt>Axis&rsquo;s role</dt><dd>What did Axis actually do?</dd>
+    <dt>Market reaction</dt><dd>What happened after?</dd>
+  </div>
+
+  <div class="news-card" data-role="ib">
+    <h3>Current Axis deal &mdash; NSE IPO</h3>
+    <p>A must-know transaction, listed at approximately <strong>₹22,562 crore</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+    <p><strong>Business:</strong> NSE operates India&rsquo;s largest exchange platform by several key measures. <strong>Revenue drivers:</strong> trading, listing, data, clearing, market services.</p>
+    <p><strong>Key questions to prep:</strong> Why does NSE want to list? What determines an exchange&rsquo;s valuation? What is the importance of market share? What happens to exchange profitability when trading volumes increase? What are the regulatory risks? A very good transaction to discuss in an IB interview.</p>
+  </div>
+  <div class="news-card" data-role="er ib">
+    <h3>Current Axis deal &mdash; Manipal Health</h3>
+    <p>Listed at approximately <strong>₹9,275 crore</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in" target="_blank" rel="noopener">Axis Capital</a></span></p>
+    <p><strong>Hospital economics to know:</strong> occupancy, ARPOB, case mix, bed additions, asset turns, EBITDA margins, capex.</p>
+    <div class="callout common"><div class="co-label">Common question</div><p>&ldquo;How would you value a hospital chain?&rdquo; &mdash; be ready to discuss EV/EBITDA, EV/bed, P/E and DCF.</p></div>
+  </div>
+  <div class="callout tip" data-role="ib er">
+    <div class="co-label">Current IPO environment</div>
+    <p>Don&rsquo;t say &ldquo;the IPO market is booming.&rdquo; Recent commentary from Axis Capital CEO Atul Mehra highlighted <strong>valuation expectations</strong> as a constraint on how much of the IPO pipeline ultimately reaches the market. <span class="source">Source: <a href="https://www.glassdoor.co.in/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span> Interview-quality answer: <em>&ldquo;The IPO pipeline remains strong, but the more important issue is valuation discipline. There can be a significant gap between what issuers and existing shareholders expect and what public-market investors are willing to pay.&rdquo;</em> Then discuss quality of businesses, profitability, growth, valuation, liquidity, investor appetite.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>What Counts as &ldquo;Finance Current Affairs&rdquo;?</h3>
+  <p class="idx" data-idx>Don&rsquo;t waste time reading every headline. Focus on:</p>
+  <div class="card-grid">
+    <div class="card"><h4>RBI</h4><p>Repo rate &middot; Liquidity &middot; Inflation &middot; Banking system &middot; Credit growth</p></div>
+    <div class="card"><h4>Government</h4><p>Fiscal deficit &middot; Capex &middot; Disinvestment &middot; Tax collections</p></div>
+    <div class="card"><h4>Markets</h4><p>Nifty &middot; Sensex &middot; FII/DII flows &middot; IPOs &middot; Bond yields &middot; INR</p></div>
+    <div class="card"><h4>Global</h4><p>Fed &middot; US rates &middot; Oil &middot; China &middot; Geopolitics</p></div>
+  </div>
+
+  <h4 class="mini-title idx" data-idx>The three-layer current affairs framework</h4>
+  <p class="idx" data-idx>For every news story, don&rsquo;t stop at &ldquo;what happened.&rdquo; Ask: <strong>Layer 1</strong> &mdash; what happened? <strong>Layer 2</strong> &mdash; why did it happen? <strong>Layer 3</strong> &mdash; what does it mean?</p>
+  <details class="simple"><summary>Worked example: &ldquo;What happens if RBI cuts rates?&rdquo;</summary><div class="qa-body"><p>Lower policy rate &rarr; lower short-term borrowing costs &rarr; potentially higher credit demand &rarr; potential increase in consumption/investment &rarr; potentially stronger earnings. <strong>Nuance:</strong> impact differs by sector, funding structure and monetary transmission.</p></div></details>
+
+  <h4 class="mini-title idx" data-idx>Macro questions you should prepare</h4>
+  <div class="card-grid cols-2">
+    <div class="card"><h4>India</h4><p>1. Current growth outlook? &middot; 2. What is inflation doing? &middot; 3. RBI&rsquo;s stance? &middot; 4. What&rsquo;s happening to liquidity? &middot; 5. FII flows? &middot; 6. Why are DIIs becoming important? &middot; 7. India&rsquo;s fiscal position? &middot; 8. Why is government capex important? &middot; 9. What happens to banks when rates fall? &middot; 10. What happens to real estate?</p></div>
+    <div class="card"><h4>Global</h4><p>11. What is the Fed doing? &middot; 12. Why do US yields matter to India? &middot; 13. Why does crude matter? &middot; 14. What happens to India when the dollar strengthens? &middot; 15. How do global risk-off events affect FII flows?</p></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>PE / VC Questions</h3>
+  <p class="idx" data-idx>Recent intern interview evidence specifically mentioned PE, IB and startups, so prepare basic PE concepts too. <span class="reported">Reported Interview Experience</span> <span class="source">Source: <a href="https://www.glassdoor.com/Interview/Axis-Capital-Interview-Questions-E1360232.htm" target="_blank" rel="noopener">Glassdoor</a></span></p>
+  <p><strong>Private Equity:</strong> a PE fund raises capital &rarr; invests in companies &rarr; improves/grows them &rarr; exits &rarr; returns capital to investors.</p>
+  <div class="flow" style="max-width:340px;">
+    <div class="flow-step">Fundraising</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Deal sourcing</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Due diligence</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Valuation</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Investment</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Value creation</div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Exit</div>
+  </div>
+  <div class="table-scroll"><table class="kt-table">
+    <thead><tr><th>IB</th><th>PE</th></tr></thead>
+    <tbody>
+      <tr><td>Advises clients &mdash; revenue from fees</td><td>Invests its own/fund capital &mdash; returns from investment gains / exit proceeds</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout tip"><div class="co-label">Possible question</div><p>&ldquo;Why IB if PE sounds more attractive?&rdquo; Have a coherent answer ready.</p></div>
+
+  <h4 class="mini-title idx" data-idx>Startup questions</h4>
+  <p class="idx" data-idx>Know: pre-money valuation, post-money valuation, equity dilution, ESOPs, preference shares, term sheets, burn, runway, unit economics.</p>
+  <div class="callout common">
+    <div class="co-label">Worked example</div>
+    <p>Startup raises ₹20 crore at a ₹100 crore pre-money valuation. <strong>Post-money:</strong> ₹120 crore. <strong>New investor ownership:</strong> ₹20 / ₹120 = 16.67%</p>
+  </div>
+</section>
+<section class="kt-section" id="ib-prep" data-label="IB Preparation" data-role="ib">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>IB-Specific Preparation</h2>
+  <p class="section-sub">Beyond the Must-Know and Strongly-Recommended layers (<a href="#technicals">Finance Technicals</a>, <a href="#ib">Investment Banking</a>), IB candidates should go a level deeper on:</p>
+  <div class="card-grid cols-2 idx" data-idx>
+    <div class="card accent-ib"><h4>M&amp;A</h4><p>Buy-side vs sell-side framing, rationale for a deal, valuation and negotiation considerations. See <a href="#ib">Investment Banking &rarr; M&amp;A</a>.</p></div>
+    <div class="card accent-ib"><h4>ECM</h4><p>IPO / QIP / OFS mechanics cold, plus the current IPO market&rsquo;s selectivity. See <a href="#ib">Investment Banking &rarr; ECM</a> and <a href="#current-affairs">Current Affairs</a>.</p></div>
+    <div class="card accent-ib"><h4>Financial modelling</h4><p>Building the three statements together and flexing them for scenarios (see the <a href="#technicals">depreciation walkthrough</a>).</p></div>
+    <div class="card accent-ib"><h4>Transaction &amp; trading comps, precedent transactions</h4><p>Comparable-company and comparable-deal valuation approaches, alongside DCF.</p></div>
+  </div>
+  <div class="callout tip"><div class="co-label">Interview tip</div><p>Be ready to walk through a recent Axis deal end-to-end &mdash; see <a href="#transactions">Recent Transactions</a> and <a href="#current-affairs">Current Affairs</a> for NSE and Manipal Health prep.</p></div>
+  <p>Full 30-question IB bank: <a href="#question-bank">Question Bank &rarr; IB</a>.</p>
+</section>
+<section class="kt-section" id="er-prep" data-label="ER Preparation" data-role="er">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>ER-Specific Preparation</h2>
+  <p class="section-sub">Beyond Finance Technicals and the Stock Pitch framework, ER candidates should go a level deeper on:</p>
+  <div class="card-grid cols-2 idx" data-idx>
+    <div class="card accent-er"><h4>Deep stock pitch</h4><p>Rehearsed end-to-end, able to survive an attack. See <a href="#stock-pitch">Stock Pitch</a>.</p></div>
+    <div class="card accent-er"><h4>Sector analysis</h4><p>Market size, growth, structure, economics, risks and valuation for one sector. See <a href="#stock-pitch">Sector Pitch</a>.</p></div>
+    <div class="card accent-er"><h4>Earnings &amp; SOTP</h4><p>Reading a result and knowing when a sum-of-the-parts valuation is more appropriate than a single multiple.</p></div>
+    <div class="card accent-er"><h4>Investment thesis</h4><p>Why is the market wrong, and what would prove you wrong? See <a href="#technicals">Valuation &mdash; Level 1</a>.</p></div>
+  </div>
+  <div class="callout tip"><div class="co-label">Interview tip</div><p>Have one recent Axis Capital research call ready &mdash; see <a href="#news">Recent News</a> (real estate, Adani Green, PSU divestment, macro).</p></div>
+  <p>Full 30-question ER bank: <a href="#question-bank">Question Bank &rarr; ER</a>.</p>
+</section>
+<section class="kt-section" id="trading-prep" data-label="Trading Preparation" data-role="trading">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Trading &mdash; Detailed Preparation</h2>
+  <p class="section-sub idx" data-idx>Trading candidates should think differently from IB/ER candidates.</p>
+
+  <h3 class="sub-title idx" data-idx>Market Structure</h3>
+  <p class="idx" data-idx>Know: bid, ask, spread, order book, liquidity, volume, volatility, market depth.</p>
+  <div class="callout common"><div class="co-label">Worked example</div><p>Bid: ₹100 &middot; Ask: ₹100.20 &middot; Spread: ₹0.20</p></div>
+
+  <h4 class="mini-title idx" data-idx>Market order vs limit order</h4>
+  <div class="table-scroll"><table class="kt-table idx" data-idx>
+    <thead><tr><th>Market order</th><th>Limit order</th></tr></thead>
+    <tbody>
+      <tr><td>Execute immediately at available market prices. <strong>Advantage:</strong> execution certainty. <strong>Risk:</strong> price uncertainty.</td><td>Execute only at a specified price or better. <strong>Advantage:</strong> price control. <strong>Risk:</strong> execution may not happen.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4 class="mini-title idx" data-idx>Market impact</h4>
+  <div class="callout common idx" data-idx>
+    <div class="co-label">Worked example</div>
+    <p>Normal daily volume = ₹10 crore. Client wants to sell ₹50 crore. Dumping the entire order immediately can push the price down. Execution might instead involve breaking the order, algorithms, timing, multiple venues and liquidity analysis &mdash; this is where trading becomes interesting.</p>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>Futures</h3>
+  <p class="idx" data-idx>A futures contract is an agreement to buy/sell an underlying asset at a future date at a predetermined price. Know: margin, mark-to-market, leverage, hedging, basis.</p>
+
+  <h3 class="sub-title idx" data-idx>Options</h3>
+  <div class="card-grid cols-2">
+    <div class="card idx" data-idx><h4>Call</h4><p>Right, not obligation, to buy.</p></div>
+    <div class="card idx" data-idx><h4>Put</h4><p>Right, not obligation, to sell.</p></div>
+  </div>
+  <p>Know: strike, premium, expiry, intrinsic value, time value, implied volatility.</p>
+
+  <h4 class="mini-title idx" data-idx>Option Greeks</h4>
+  <div class="card-grid idx" data-idx>
+    <div class="card"><h4>Delta</h4><p>Sensitivity to underlying price.</p></div>
+    <div class="card"><h4>Gamma</h4><p>Change in delta.</p></div>
+    <div class="card"><h4>Theta</h4><p>Time decay.</p></div>
+    <div class="card"><h4>Vega</h4><p>Sensitivity to volatility.</p></div>
+    <div class="card"><h4>Rho</h4><p>Sensitivity to interest rates.</p></div>
+  </div>
+  <p>You don&rsquo;t necessarily need advanced options theory for every role, but Trading candidates should be significantly deeper here.</p>
+  <p>Full 30-question Trading bank: <a href="#question-bank">Question Bank &rarr; Trading</a>.</p>
+</section>
+<section class="kt-section" id="behavioural" data-label="Behavioural">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Behavioural Round</h2>
+  <p class="section-sub idx" data-idx>Should not be treated as an afterthought. Axis explicitly says it wants to understand candidates&rsquo; experiences, achievements and challenges, and recommends <strong>STAR</strong>. <span class="source">Source: <a href="https://www.axiscapital.co.in/how-to-stand-out" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  <p>Prepare stories for:</p>
+  <div class="card-grid">
+    <div class="card idx" data-idx><h4>Leadership</h4><p>Tell me about a time you led a team.</p></div>
+    <div class="card idx" data-idx><h4>Conflict</h4><p>Tell me about a disagreement.</p></div>
+    <div class="card idx" data-idx><h4>Failure</h4><p>Tell me about a failure.</p></div>
+    <div class="card idx" data-idx><h4>Pressure</h4><p>Tell me about a stressful situation.</p></div>
+    <div class="card idx" data-idx><h4>Ambiguity</h4><p>A situation with incomplete information.</p></div>
+    <div class="card idx" data-idx><h4>Mistake</h4><p>Tell me about a mistake you made.</p></div>
+    <div class="card idx" data-idx><h4>Ownership</h4><p>A time you took ownership beyond your job.</p></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>&ldquo;Tell Me About a Failure&rdquo;</h3>
+  <p class="idx" data-idx>Don&rsquo;t choose &ldquo;I am a perfectionist.&rdquo; Choose a genuine but manageable failure.</p>
+  <div class="flow" style="max-width:360px;">
+    <div class="flow-step">Situation<span class="fs-note">What happened?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Mistake<span class="fs-note">What did you personally get wrong?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Action<span class="fs-note">What did you do?</span></div><div class="flow-arrow">↓</div>
+    <div class="flow-step">Learning<span class="fs-note">What changed afterward?</span></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>&ldquo;Are You Comfortable With Long Hours?&rdquo;</h3>
+  <p class="idx" data-idx data-role="ib">Relevant for IB. Don&rsquo;t try to impress with &ldquo;I can work 20 hours a day.&rdquo; Instead: <em>&ldquo;I understand that transaction-driven roles can have unpredictable and intense periods, particularly around live deals. I&rsquo;m comfortable with that expectation and have previously worked in situations where priorities and deadlines changed rapidly.&rdquo;</em> The key is: <strong>realistic + mature + committed.</strong></p>
+
+  <h3 class="sub-title idx" data-idx>&ldquo;What If We Give You a Lot of Work?&rdquo;</h3>
+  <p class="idx" data-idx>The interviewer is testing prioritisation, resilience, communication, organisation. Good answer: <em>&ldquo;I&rsquo;d first understand which tasks are deadline-critical and which are dependent on others. I&rsquo;d prioritise based on urgency and impact, communicate early if there is a genuine capacity conflict, and then work through the highest-priority items systematically.&rdquo;</em></p>
+
+  <h3 class="sub-title idx" data-idx>&ldquo;Why Should We Hire You?&rdquo;</h3>
+  <p class="idx" data-idx>Use: <strong>Skill</strong> (what are you good at?) &rarr; <strong>Evidence</strong> (where have you demonstrated it?) &rarr; <strong>Relevance</strong> (why does it matter for this role?)</p>
+  <div class="callout tip">
+    <div class="co-label">Example</div>
+    <p><em>&ldquo;I think my strongest fit is the combination of analytical problem-solving and ownership. In my previous experience, I&rsquo;ve worked on ambiguous problems where I had to structure the problem, analyse data and drive execution myself. I think that combination is particularly relevant in an environment where analysts are expected to be both analytically rigorous and dependable under tight deadlines.&rdquo;</em></p>
+  </div>
+  <p>For the senior-round etiquette of questions to ask (and not ask) the interviewer, see <a href="#round-md">Round 3: Director/MD</a>.</p>
+</section>
+<section class="kt-section" id="question-bank" data-label="Question Bank">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Final Master Question Bank</h2>
+  <p class="section-sub">120 questions from the source evidence, grouped exactly as reported. Expand a category to see its list. Several of these are given full depth (what&rsquo;s being tested, what a strong answer contains) on their own dedicated pages &mdash; linked inline below.</p>
+  <div class="callout must"><div class="co-label">Must know</div><p>Do not treat this as a script to memorise answers to. It is the <strong>map of territory</strong> &mdash; cross-check each item against the fuller sections elsewhere in this KT before interview day.</p></div>
+
+  <div class="qbank-group">
+    <details class="simple idx" data-idx>
+      <summary>A &middot; Personal / Fit <span class="tier should" style="margin-left:8px;">20 items</span></summary>
+      <div class="qa-body">
+        <p>See full treatment: <a href="#fit">Fit &amp; Motivation</a> &middot; <a href="#round-buddy">Round 1: Buddy</a> &middot; <a href="#behavioural">Behavioural</a></p>
+        <ol>
+          <li>Tell me about yourself.</li><li>Walk me through your CV.</li><li>Why MBA?</li><li>Why Finance?</li><li>Why IB?</li><li>Why ER?</li><li>Why Trading?</li><li>Why Axis?</li><li>Why not another investment bank?</li><li>Why should we hire you?</li><li>What are your strengths?</li><li>What is your weakness?</li><li>Tell me about a failure.</li><li>Tell me about a conflict.</li><li>Tell me about a leadership experience.</li><li>Tell me about a stressful situation.</li><li>Are you comfortable with long hours?</li><li>Are you willing to relocate?</li><li>Where do you see yourself in five years?</li><li>What questions do you have for us?</li>
+        </ol>
+      </div>
+    </details>
+    <details class="simple idx" data-idx>
+      <summary>B &middot; Axis Capital <span class="tier must" style="margin-left:8px;">20 items</span></summary>
+      <div class="qa-body">
+        <p>See full treatment: <a href="#glance">At a Glance</a> &middot; <a href="#history">History</a> &middot; <a href="#why-axis">Why Axis</a> &middot; <a href="#transactions">Recent Transactions</a></p>
+        <ol>
+          <li>What does Axis Capital do?</li><li>Axis Capital vs Axis Bank?</li><li>What was ENAM?</li><li>Why did Axis Bank acquire ENAM?</li><li>What are Axis Capital&rsquo;s major businesses?</li><li>What is ECM?</li><li>What is M&amp;A?</li><li>What is private fundraising?</li><li>What are InvITs?</li><li>What are REITs?</li><li>What is Institutional Equities?</li><li>What does Axis Research do?</li><li>What is Feet on the Street?</li><li>What does the trading desk do?</li><li>Who are Axis Capital&rsquo;s clients?</li><li>How does Axis Capital make money?</li><li>What differentiates Axis Capital?</li><li>Who is the CEO?</li><li>Tell me about a recent Axis transaction.</li><li>Why Axis Capital?</li>
+        </ol>
+      </div>
+    </details>
+    <details class="simple idx" data-idx data-role="ib">
+      <summary>C &middot; IB <span class="tier should" style="margin-left:8px;">30 items</span> <span class="rtag ib">IB</span></summary>
+      <div class="qa-body">
+        <p>See full treatment: <a href="#ib">Investment Banking</a> &middot; <a href="#technicals">Finance Technicals</a> &middot; <a href="#ib-prep">IB Preparation</a></p>
+        <ol>
+          <li>What does an investment bank do?</li><li>How does an investment bank make money?</li><li>IPO?</li><li>QIP?</li><li>OFS?</li><li>FPO?</li><li>Rights issue?</li><li>Block deal?</li><li>Private placement?</li><li>M&amp;A?</li><li>Buy-side vs sell-side?</li><li>Strategic buyer vs financial buyer?</li><li>Enterprise value?</li><li>Equity value?</li><li>DCF?</li><li>WACC?</li><li>Terminal value?</li><li>Trading comps?</li><li>Transaction comps?</li><li>P/E?</li><li>EV/EBITDA?</li><li>Why can EV/EBITDA be useful?</li><li>Walk through three statements.</li><li>What happens when depreciation increases?</li><li>What happens when inventory increases?</li><li>What happens when debt increases?</li><li>What makes a good IPO?</li><li>What makes an M&amp;A transaction attractive?</li><li>Tell me about a recent deal.</li><li>Pitch a company.</li>
+        </ol>
+      </div>
+    </details>
+    <details class="simple idx" data-idx data-role="er">
+      <summary>D &middot; ER <span class="tier should" style="margin-left:8px;">30 items</span> <span class="rtag er">ER</span></summary>
+      <div class="qa-body">
+        <p>See full treatment: <a href="#ie">Institutional Equities</a> &middot; <a href="#stock-pitch">Stock Pitch</a> &middot; <a href="#er-prep">ER Preparation</a></p>
+        <ol>
+          <li>What does an equity research analyst do?</li><li>Sell-side vs buy-side research?</li><li>How do you analyse a company?</li><li>How do you value a company?</li><li>Pitch a stock.</li><li>Why BUY?</li><li>What&rsquo;s your target price?</li><li>What&rsquo;s the catalyst?</li><li>What&rsquo;s the downside?</li><li>What&rsquo;s the bear case?</li><li>What&rsquo;s the bull case?</li><li>What does the market expect?</li><li>Why is the market wrong?</li><li>What is P/E?</li><li>EV/EBITDA?</li><li>DCF?</li><li>ROE?</li><li>ROCE?</li><li>FCF?</li><li>SOTP?</li><li>What makes a good business?</li><li>What is a moat?</li><li>What drives revenue?</li><li>What drives margins?</li><li>How would interest rates affect your company?</li><li>How would crude affect your company?</li><li>What sector do you follow?</li><li>What company do you follow?</li><li>What recent result surprised you?</li><li>What recent Axis research have you read?</li>
+        </ol>
+      </div>
+    </details>
+    <details class="simple idx" data-idx data-role="trading">
+      <summary>E &middot; Trading <span class="tier should" style="margin-left:8px;">30 items</span> <span class="rtag trading">Trading</span></summary>
+      <div class="qa-body">
+        <p>See full treatment: <a href="#ie">Institutional Equities</a> &middot; <a href="#trading-prep">Trading Preparation</a></p>
+        <ol>
+          <li>Why Trading?</li><li>What does a trader do?</li><li>What is institutional trading?</li><li>Cash vs derivatives?</li><li>Futures?</li><li>Options?</li><li>Calls?</li><li>Puts?</li><li>Delta?</li><li>Gamma?</li><li>Theta?</li><li>Vega?</li><li>Implied volatility?</li><li>Bid-ask spread?</li><li>Liquidity?</li><li>Market impact?</li><li>Slippage?</li><li>Market vs limit order?</li><li>High-touch vs low-touch?</li><li>How would you execute a large order?</li><li>Why did Nifty move today?</li><li>What is the RBI doing?</li><li>What happens when rates rise?</li><li>What happens when rates fall?</li><li>What happens to bonds when yields rise?</li><li>What is VIX?</li><li>What market are you following?</li><li>What stock would you trade?</li><li>What is a recent market event?</li><li>How do you manage risk?</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="callout trend idx" data-idx>
+    <div class="co-label">The most important preparation insight</div>
+    <p>There is a subtle but important difference between passing a finance test and passing an Axis interview. A finance test asks <em>&ldquo;Do you know the formula?&rdquo;</em> An Axis interview can ask: <em>&ldquo;You said you like Company X. Why?&rdquo; &rarr; &ldquo;Why is its margin increasing?&rdquo; &rarr; &ldquo;What if margins don&rsquo;t increase?&rdquo; &rarr; &ldquo;How does that affect your DCF?&rdquo; &rarr; &ldquo;Would you still buy?&rdquo; &rarr; &ldquo;Okay. Tell me why you want to work here.&rdquo;</em> So the interview is testing <strong>depth + reasoning + communication</strong>, not just memory &mdash; consistent with Axis&rsquo;s own emphasis on financial proficiency, analytical thinking, experience, actions and results. <span class="source">Source: <a href="https://www.axiscapital.co.in/public/careers" target="_blank" rel="noopener">Axis Capital</a></span></p>
+  </div>
+</section>
+<section class="kt-section" id="plan-48h" data-label="48-Hour Plan">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>48-Hour Preparation Plan</h2>
+  <p class="section-sub idx" data-idx>If you get very little time, do not start with 400 questions. Use this hierarchy, then the timeline below.</p>
+
+  <h3 class="sub-title idx" data-idx>How Deep Should You Prepare?</h3>
+  <div class="card-grid cols-2 idx" data-idx>
+    <div class="card"><span class="tier must">Level 1 &middot; Must know</span><p style="margin-top:8px;">Everyone: TMAY &middot; Why Finance &middot; Why role &middot; Why Axis &middot; Axis business &middot; recent Axis deals &middot; stock pitch &middot; current affairs &middot; three statements &middot; basic valuation.</p></div>
+    <div class="card"><span class="tier should">Level 2 &middot; Strongly recommended</span><p style="margin-top:8px;">DCF &middot; WACC &middot; comps &middot; working capital &middot; M&amp;A basics &middot; IPO/QIP/OFS &middot; industry analysis.</p></div>
+    <div class="card"><span class="tier should">Level 3 &middot; Role specific</span><p style="margin-top:8px;"><strong data-role="ib">IB:</strong> M&amp;A, ECM, financial modelling, transaction comps, precedent transactions. <strong data-role="er">ER:</strong> deep stock pitch, sector analysis, earnings, SOTP, investment thesis. <strong data-role="trading">Trading:</strong> derivatives, Greeks, execution, market microstructure, volatility.</p></div>
+    <div class="card"><span class="tier bonus">Level 4 &middot; Bonus</span><p style="margin-top:8px;">LBO &middot; advanced derivatives &middot; detailed merger modelling &middot; advanced macro &middot; sector-specific accounting.</p></div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>The Timeline</h3>
+  <details class="simple idx" data-idx open>
+    <summary><span class="mono" style="color:var(--green-ink);">T&minus;48h &rarr; T&minus;36h</span> &middot; Company &middot; <span class="tier should">2 hours</span></summary>
+    <div class="qa-body">
+      <p><strong>Read:</strong> Axis Capital website &mdash; About, Investment Banking, Institutional Equities, Research, Recent transactions.</p>
+      <p><strong>Prepare:</strong> a 1-minute Axis explanation and your Why Axis answer. See <a href="#why-axis">Why Axis</a>.</p>
+    </div>
+  </details>
+  <details class="simple idx" data-idx>
+    <summary><span class="mono" style="color:var(--green-ink);">T&minus;36h &rarr; T&minus;24h</span> &middot; Finance &middot; <span class="tier should">4 hours</span></summary>
+    <div class="qa-body">
+      <p><strong>Revise:</strong> three statements, accounting, working capital, EV vs equity value, P/E, EV/EBITDA, DCF, WACC, IPO, QIP, OFS, M&amp;A. See <a href="#technicals">Finance Technicals</a> and <a href="#ib">Investment Banking</a>.</p>
+    </div>
+  </details>
+  <details class="simple idx" data-idx>
+    <summary><span class="mono" style="color:var(--green-ink);">T&minus;24h &rarr; T&minus;12h</span> &middot; Markets + Stock + Sector &middot; <span class="tier should">3 hours</span></summary>
+    <div class="qa-body">
+      <p><strong>Prepare:</strong> one stock, deep &middot; one sector, deep &middot; three news stories (What &rarr; Why &rarr; Impact) &middot; three Axis deals (Client &rarr; Transaction &rarr; Size &rarr; Rationale &rarr; Axis role). See <a href="#stock-pitch">Stock Pitch</a>, <a href="#news">Recent News</a>, <a href="#transactions">Recent Transactions</a>.</p>
+    </div>
+  </details>
+  <details class="simple idx" data-idx>
+    <summary><span class="mono" style="color:var(--green-ink);">T&minus;12h</span> &middot; Mock Interview</summary>
+    <div class="qa-body">
+      <div class="tree-diagram">TMAY → Why Finance → Why Role → Why Axis → CV → Stock
+pitch → Technical → Recent news → Axis transaction → Behavioural</div>
+    </div>
+  </details>
+
+  <h3 class="sub-title idx" data-idx>Final 30-Minute Revision Sheet</h3>
+  <p class="idx" data-idx>Before the interview, your final page should contain:</p>
+  <div class="card-grid cols-2 idx" data-idx>
+    <div class="card"><h4>Axis</h4><p>ENAM &rarr; Axis &middot; Axis Bank subsidiary &middot; IB + Institutional Equities &middot; ECM / M&amp;A / Private Capital / InvIT-REIT &middot; Research / Sales / Trading / Corporate Access</p></div>
+    <div class="card"><h4>My Role</h4><p>Why? &middot; What does the role do? &middot; Why am I suited?</p></div>
+    <div class="card"><h4>Stock</h4><p>Recommendation &middot; Thesis &middot; Growth &middot; Valuation &middot; Catalyst &middot; Risk &middot; Target</p></div>
+    <div class="card"><h4>Sector</h4><p>Growth &middot; Leaders &middot; Economics &middot; Risk &middot; Valuation</p></div>
+    <div class="card"><h4>Axis Deals</h4><p>Deal 1 &middot; Deal 2 &middot; Deal 3</p></div>
+    <div class="card"><h4>Market</h4><p>RBI &middot; FII/DII &middot; Rates &middot; IPO market &middot; 3 recent news stories</p></div>
+    <div class="card" style="grid-column:1/-1;"><h4>Technical</h4><p>3 statements &middot; EV &middot; P/E &middot; EV/EBITDA &middot; DCF &middot; WACC &middot; Working capital</p></div>
+  </div>
+</section>
+<section class="kt-section" id="checklist" data-label="Final Checklist">
+  <span class="part-tag p2">Part 2 &middot; Interview</span>
+  <h2 class="section-title idx" data-idx>Final Checklist</h2>
+  <p class="section-sub">Tick off what&rsquo;s genuinely ready &mdash; not what you&rsquo;ve merely read once. Saved on this device as you go.</p>
+
+  <div class="checklist-summary">
+    <span class="big-pct" id="fcOverallPct">0%</span>
+    <div style="flex:1;">
+      <div class="progress-top" style="margin-bottom:4px;"><span class="progress-label">Overall preparation</span><span class="progress-val" id="fcOverallCount">0/32</span></div>
+      <div class="progress-track"><div class="progress-fill" id="fcOverallBar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Company</h4><span class="cat-pct" data-cat-pct="company"></span></div>
+    <div class="checklist-box" data-fc-cat="company">
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c1"><span>I can explain what Axis Capital does in 30 seconds</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c2"><span>I know the difference between Axis Capital and Axis Bank</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c3"><span>I know what ENAM was and why it matters</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c4"><span>I know who owns Axis Capital and who Atul Mehra is</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c5"><span>I know Axis Capital&rsquo;s two main business pillars (IB + Institutional Equities)</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="c6"><span>I know at least 3&ndash;5 recent Axis transactions (e.g. NSE IPO, Manipal Health IPO)</span></label>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Personal</h4><span class="cat-pct" data-cat-pct="personal"></span></div>
+    <div class="checklist-box" data-fc-cat="personal">
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p1"><span>I have a tight, rehearsed TMAY (60&ndash;90 seconds)</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p2"><span>I have a clear Why Finance answer</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p3"><span>I have a clear Why&nbsp;[my role] answer</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p4"><span>I have a clear Why Axis answer</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p5"><span>I have a ranked role preference (IB / ER / Trading) ready</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="p6"><span>I have prepared every CV bullet using WHAT / WHY / HOW / YOU / NUMBERS / BUSINESS / LEARNING</span></label>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Markets</h4><span class="cat-pct" data-cat-pct="markets"></span></div>
+    <div class="checklist-box" data-fc-cat="markets">
+      <label class="checklist-item"><input type="checkbox" data-fc-id="m1"><span>I know the RBI&rsquo;s current stance and recent liquidity/rate moves</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="m2"><span>I know current FII/DII flow trends</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="m3"><span>I know what&rsquo;s happening in the IPO market right now (and can explain selectivity, not just &ldquo;it&rsquo;s booming&rdquo;)</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="m4"><span>I have 3 recent news stories ready with What &rarr; Why &rarr; Impact</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="m5"><span>I know my sector&rsquo;s growth, leaders, economics, risks and valuation</span></label>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Technical</h4><span class="cat-pct" data-cat-pct="technical"></span></div>
+    <div class="checklist-box" data-fc-cat="technical">
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t1"><span>I can walk through the three financial statements from memory</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t2"><span>I can explain what happens to all three statements when depreciation or working capital changes</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t3"><span>I can explain Enterprise Value vs Equity Value and the bridge between them</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t4"><span>I can explain P/E and EV/EBITDA and when each is useful</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t5"><span>I can explain the DCF process end-to-end in under 30 seconds</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="t6"><span>I can explain WACC and what happens to a DCF when WACC or terminal growth changes</span></label>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Role Specific</h4><span class="cat-pct" data-cat-pct="role"></span></div>
+    <div class="checklist-box" data-fc-cat="role">
+      <label class="checklist-item" data-role="ib"><input type="checkbox" data-fc-id="r1"><span>IB: I know ECM, QIP, OFS and M&amp;A well enough to explain each with an example</span></label>
+      <label class="checklist-item" data-role="er"><input type="checkbox" data-fc-id="r2"><span>ER: I have one stock pitched end-to-end (thesis, growth, margin, valuation, catalyst, risk, target)</span></label>
+      <label class="checklist-item" data-role="trading"><input type="checkbox" data-fc-id="r3"><span>Trading: I can explain market vs limit orders, market impact and at least 3 option Greeks</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="r4"><span>I know my ranked role&rsquo;s specific question bank (IB / ER / Trading)</span></label>
+    </div>
+  </div>
+
+  <div class="checklist-cat">
+    <div class="checklist-cat-head"><h4>Behavioural</h4><span class="cat-pct" data-cat-pct="behavioural"></span></div>
+    <div class="checklist-box" data-fc-cat="behavioural">
+      <label class="checklist-item"><input type="checkbox" data-fc-id="b1"><span>I have a real (not generic) failure story using Situation / Mistake / Action / Learning</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="b2"><span>I have a leadership, conflict and pressure story ready</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="b3"><span>I have a mature answer ready for &ldquo;comfortable with long hours?&rdquo;</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="b4"><span>I have 2&ndash;3 good questions ready to ask the interviewer</span></label>
+      <label class="checklist-item"><input type="checkbox" data-fc-id="b5"><span>I know which questions NOT to ask in a senior round</span></label>
+    </div>
+  </div>
+
+  <h3 class="sub-title idx" data-idx>The Final 10 Things to Do</h3>
+  <p class="idx" data-idx>Before the Axis interview:</p>
+  <ol class="idx" data-idx>
+    <li>Prepare TMAY.</li><li>Prepare Why Finance.</li><li>Prepare Why your role.</li><li>Prepare Why Axis.</li><li>Know Axis&rsquo;s business model.</li><li>Know 3 Axis transactions.</li><li>Prepare 1 stock pitch.</li><li>Prepare 1 sector.</li><li>Revise finance fundamentals.</li><li>Read financial news from the last 7&ndash;10 days on the morning of the interview.</li>
+  </ol>
+</section>
+</main>
+</div>
+
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+  var LS = { theme:'kt-theme', role:'kt-role', visited:'kt-visited', fc:'kt-checklist', sp:'kt-stockpitch', sidebar:'kt-sidebar-collapsed' };
+
+  /* ---------- THEME ---------- */
+  var themeBtn = document.getElementById('themeBtn');
+  function applyTheme(t){
+    if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+    else if(t==='light') document.documentElement.setAttribute('data-theme','light');
+    else document.documentElement.removeAttribute('data-theme');
+  }
+  var savedTheme = null;
+  try{ savedTheme = localStorage.getItem(LS.theme); }catch(e){}
+  if(savedTheme) applyTheme(savedTheme);
+  themeBtn.addEventListener('click', function(){
+    var current = document.documentElement.getAttribute('data-theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var effectiveDark = current ? current==='dark' : prefersDark;
+    var next = effectiveDark ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem(LS.theme, next); }catch(e){}
+  });
+
+  /* ---------- MOBILE SIDEBAR ---------- */
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var menuBtn = document.getElementById('menuBtn');
+  function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('open'); }
+  function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+  menuBtn.addEventListener('click', openSidebar);
+  overlay.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sidebar-links a').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.innerWidth<=860) closeSidebar(); });
+  });
+
+  /* ---------- SIDEBAR GROUP COLLAPSE ---------- */
+  document.querySelectorAll('.sidebar-group-head').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.parentElement.classList.toggle('collapsed');
+    });
+  });
+
+  /* ---------- ROLE FILTER ---------- */
+  var rolePills = document.querySelectorAll('.role-pill');
+  var roleHint = document.getElementById('roleHint');
+  var roleHints = {
+    all: 'Showing everything. Pick a role to highlight what matters most to it — nothing is hidden.',
+    ib: 'IB lens: ECM, QIP, OFS, M&A, DCF, valuation and IB questions are highlighted — everything else stays visible, just dimmed.',
+    er: 'ER lens: Equity Research, Stock Pitch, Sector Analysis, valuation and ER questions are highlighted.',
+    trading: 'Trading lens: Sales & Trading, market microstructure, derivatives, execution and Trading questions are highlighted.'
+  };
+  function setRole(role){
+    if(role==='all') document.body.removeAttribute('data-role-filter');
+    else document.body.setAttribute('data-role-filter', role);
+    rolePills.forEach(function(p){ p.setAttribute('aria-pressed', p.dataset.role===role ? 'true':'false'); });
+    roleHint.textContent = roleHints[role] || roleHints.all;
+    try{ localStorage.setItem(LS.role, role); }catch(e){}
+    var qpRole = document.getElementById('qpRoleQs');
+    if(qpRole){
+      if(role==='ib') qpRole.setAttribute('href','#ib-prep');
+      else if(role==='er') qpRole.setAttribute('href','#er-prep');
+      else if(role==='trading') qpRole.setAttribute('href','#trading-prep');
+      else qpRole.setAttribute('href','#question-bank');
+    }
+  }
+  rolePills.forEach(function(p){ p.addEventListener('click', function(){ setRole(p.dataset.role); }); });
+  var savedRole = null;
+  try{ savedRole = localStorage.getItem(LS.role); }catch(e){}
+  setRole(savedRole || 'all');
+
+  /* ---------- SMOOTH-OPEN DETAILS WHEN NAVIGATING TO AN ANCHOR INSIDE ONE ---------- */
+  function openAncestorDetails(el){
+    var p = el;
+    while(p){ if(p.tagName==='DETAILS') p.open = true; p = p.parentElement; }
+  }
+  function flash(el){
+    var card = el.closest('details.qa, details.simple, .news-card, .card') || el;
+    card.classList.add('flash');
+    setTimeout(function(){ card.classList.remove('flash'); }, 1700);
+  }
+  function jumpTo(hash){
+    var id = hash.replace('#','');
+    var target = document.getElementById(id);
+    if(!target) return;
+    openAncestorDetails(target);
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+    flash(target);
+  }
+  window.addEventListener('hashchange', function(){ jumpTo(location.hash); });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
+    if(target){ setTimeout(function(){ openAncestorDetails(target); flash(target); }, 350); }
+  });
+
+  /* ---------- SIDEBAR ACTIVE STATE + SECTION VISIT PROGRESS ---------- */
+  var companyIds = ['glance','history','structure','ib','ie','roles-compare','business-model','sectors','transactions','news','leadership','why-axis'];
+  var interviewIds = ['interview-process','round-buddy','round-vp','round-md','interview-trends','fit','cv','technicals','stock-pitch','current-affairs','ib-prep','er-prep','trading-prep','behavioural','question-bank','plan-48h','checklist'];
+  var navLinks = {};
+  document.querySelectorAll('.sidebar-links a[data-nav]').forEach(function(a){ navLinks[a.getAttribute('href').slice(1)] = a; });
+  var visited = {};
+  try{ visited = JSON.parse(localStorage.getItem(LS.visited) || '{}'); }catch(e){}
+  function updateProgress(){
+    var cCount = companyIds.filter(function(id){ return visited[id]; }).length;
+    var iCount = interviewIds.filter(function(id){ return visited[id]; }).length;
+    document.getElementById('progCompanyVal').textContent = cCount+'/'+companyIds.length;
+    document.getElementById('progCompanyBar').style.width = (cCount/companyIds.length*100)+'%';
+    document.getElementById('progInterviewVal').textContent = iCount+'/'+interviewIds.length;
+    document.getElementById('progInterviewBar').style.width = (iCount/interviewIds.length*100)+'%';
+  }
+  updateProgress();
+  var sections = document.querySelectorAll('.kt-section[id]');
+  var activeId = null;
+  function setActive(id){
+    if(id===activeId) return;
+    activeId = id;
+    document.querySelectorAll('.sidebar-links a.active').forEach(function(a){ a.classList.remove('active'); });
+    var link = navLinks[id];
+    if(link){ link.classList.add('active'); }
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        if(entry.isIntersecting){
+          if(entry.intersectionRatio > 0.15){ setActive(id); }
+          if(!visited[id]){ visited[id] = true; try{ localStorage.setItem(LS.visited, JSON.stringify(visited)); }catch(e){} updateProgress(); }
+        }
+      });
+    }, {rootMargin:'-96px 0px -60% 0px', threshold:[0,0.15,0.5]});
+    sections.forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- BACK TO TOP ---------- */
+  var backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 500) backBtn.classList.add('show'); else backBtn.classList.remove('show');
+  }, {passive:true});
+  backBtn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* ---------- SEARCH ---------- */
+  var overlayEl = document.getElementById('searchOverlay');
+  var searchInput = document.getElementById('searchInput');
+  var searchResults = document.getElementById('searchResults');
+  var sectionLabel = {};
+  sections.forEach(function(s){ sectionLabel[s.id] = s.getAttribute('data-label') || s.id; });
+  var indexItems = [];
+  function buildIndex(){
+    indexItems = [];
+    sections.forEach(function(sec){
+      sec.querySelectorAll('.idx').forEach(function(el){
+        var text = (el.getAttribute('data-search-label') || el.textContent || '').replace(/\s+/g,' ').trim();
+        if(text.length < 2) return;
+        var anchor = el.closest('[id]') || sec;
+        indexItems.push({ text: text, sectionId: sec.id, sectionLabel: sectionLabel[sec.id], anchorId: anchor.id, el: el });
+      });
+    });
+  }
+  buildIndex();
+  function openSearch(){ overlayEl.classList.add('open'); searchInput.value=''; renderResults(''); setTimeout(function(){ searchInput.focus(); }, 10); }
+  function closeSearch(){ overlayEl.classList.remove('open'); }
+  document.getElementById('searchOpenBtn').addEventListener('click', openSearch);
+  document.getElementById('searchCloseBtn').addEventListener('click', closeSearch);
+  overlayEl.addEventListener('click', function(e){ if(e.target===overlayEl) closeSearch(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='/' && overlayEl.classList.contains('open')===false && document.activeElement.tagName!=='INPUT' && document.activeElement.tagName!=='TEXTAREA'){ e.preventDefault(); openSearch(); }
+    if(e.key==='Escape' && overlayEl.classList.contains('open')) closeSearch();
+  });
+  function escapeHtml(s){ return s.replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function highlight(text, q){
+    var idx = text.toLowerCase().indexOf(q.toLowerCase());
+    if(idx===-1) return escapeHtml(text.slice(0,140));
+    var start = Math.max(0, idx-50);
+    var end = Math.min(text.length, idx+q.length+90);
+    var pre = (start>0?'…':'') + escapeHtml(text.slice(start, idx));
+    var mid = escapeHtml(text.slice(idx, idx+q.length));
+    var post = escapeHtml(text.slice(idx+q.length, end)) + (end<text.length?'…':'');
+    return pre + '<mark>' + mid + '</mark>' + post;
+  }
+  function renderResults(q){
+    if(!q){ searchResults.innerHTML = '<div class="search-empty">Type to search company facts, deals, technicals, every question bank entry and more.</div>'; return; }
+    var ql = q.toLowerCase();
+    var matches = indexItems.filter(function(it){ return it.text.toLowerCase().indexOf(ql) !== -1; }).slice(0,30);
+    if(matches.length===0){ searchResults.innerHTML = '<div class="search-empty">No matches for &ldquo;'+escapeHtml(q)+'&rdquo;.</div>'; return; }
+    searchResults.innerHTML = matches.map(function(m, i){
+      return '<div class="search-result" data-anchor="'+m.anchorId+'" data-idx-i="'+i+'">'+
+        '<div class="sr-crumb">'+escapeHtml(m.sectionLabel)+'</div>'+
+        '<div class="sr-text">'+highlight(m.text, q)+'</div></div>';
+    }).join('');
+  }
+  searchInput.addEventListener('input', function(){ renderResults(searchInput.value.trim()); });
+  searchResults.addEventListener('click', function(e){
+    var row = e.target.closest('.search-result');
+    if(!row) return;
+    var anchorId = row.getAttribute('data-anchor');
+    closeSearch();
+    location.hash = '#'+anchorId;
+    setTimeout(function(){ jumpTo('#'+anchorId); }, 60);
+  });
+
+  /* ---------- GENERIC LOCALSTORAGE CHECKBOX PERSISTENCE ---------- */
+  function wireCheckboxGroup(storageKey, selector, idAttr, onChange){
+    var state = {};
+    try{ state = JSON.parse(localStorage.getItem(storageKey) || '{}'); }catch(e){}
+    var boxes = document.querySelectorAll(selector);
+    boxes.forEach(function(box){
+      var id = box.getAttribute(idAttr);
+      box.checked = !!state[id];
+      if(box.checked && box.closest('.checklist-item')){ box.closest('.checklist-item').querySelector('span').classList.add('done'); }
+      box.addEventListener('change', function(){
+        state[id] = box.checked;
+        try{ localStorage.setItem(storageKey, JSON.stringify(state)); }catch(e){}
+        var span = box.closest('.checklist-item') ? box.closest('.checklist-item').querySelector('span') : null;
+        if(span) span.classList.toggle('done', box.checked);
+        if(onChange) onChange();
+      });
+    });
+    if(onChange) onChange();
+  }
+
+  /* Stock pitch checklist */
+  wireCheckboxGroup(LS.sp, '#stockPitchChecklist input[type="checkbox"]', 'data-sp-id');
+
+  /* Final checklist, with per-category + overall percentage */
+  var fcCats = ['company','personal','markets','technical','role','behavioural'];
+  function updateFcProgress(){
+    var state = {};
+    try{ state = JSON.parse(localStorage.getItem(LS.fc) || '{}'); }catch(e){}
+    var totalChecked = 0, totalAll = 0;
+    fcCats.forEach(function(cat){
+      var box = document.querySelector('[data-fc-cat="'+cat+'"]');
+      if(!box) return;
+      var inputs = box.querySelectorAll('input[type="checkbox"]');
+      var checked = 0;
+      inputs.forEach(function(i){ if(i.checked) checked++; });
+      totalChecked += checked; totalAll += inputs.length;
+      var pctEl = document.querySelector('[data-cat-pct="'+cat+'"]');
+      if(pctEl) pctEl.textContent = checked+'/'+inputs.length;
+    });
+    var pct = totalAll ? Math.round(totalChecked/totalAll*100) : 0;
+    document.getElementById('fcOverallPct').textContent = pct+'%';
+    document.getElementById('fcOverallCount').textContent = totalChecked+'/'+totalAll;
+    document.getElementById('fcOverallBar').style.width = pct+'%';
+  }
+  wireCheckboxGroup(LS.fc, '[data-fc-cat] input[type="checkbox"]', 'data-fc-id', updateFcProgress);
+
+  /* initial hash deep-link */
+  if(location.hash){ setTimeout(function(){ jumpTo(location.hash); }, 80); }
+})();
+</script>
+</body>
